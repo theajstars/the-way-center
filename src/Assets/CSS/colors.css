@@ -1,0 +1,13 @@
+:root {
+  --pink-default: #ffeff2;
+  --blue-default: #07387c;
+  --gray-default: #9a9ab0;
+  --purple-default: #40189d;
+}
+
+.gray-text {
+  color: var(--gray-default);
+}
+a {
+  text-decoration: none;
+}
