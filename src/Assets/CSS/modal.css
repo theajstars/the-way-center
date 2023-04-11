@@ -1,0 +1,15 @@
+.default-modal-container {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.default-modal-content {
+  background-color: var(--purple-secondary);
+  border-radius: 30px;
+}
+.surrogate-report-modal {
+  height: 900px;
+  width: 800px;
+  max-width: 90vw;
+  max-height: 90vh;
+}

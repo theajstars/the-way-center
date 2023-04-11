@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-import { Typography } from "@mui/material";
+import { Typography, Modal } from "@mui/material";
 import { motion } from "framer-motion";
 
 import { SurrogateRecords, SurrogateReports } from "../../Assets/Data";
@@ -24,6 +24,9 @@ export default function Home() {
       }, 100);
     }
   };
+
+  const [surrogateReportModalDetails, setSurrogateReportModalDetails] =
+    useState({ state: false, content: null });
   return (
     <div>
       <br />
@@ -111,6 +114,11 @@ export default function Home() {
               View More
             </span>
           </div>
+          <Modal open={surrogateReportModalDetails.state}>
+            <div className="default-modal-container flex-row">
+              <div className="default-modal-content surrogate-report-modal"></div>
+            </div>
+          </Modal>
           <div className="surrogate-reports flex-row space-between">
             {SurrogateReports.slice(0, 3).map((report, index) => {
               return (
@@ -130,15 +138,15 @@ export default function Home() {
                       className="surrogate-report-avatar"
                     />
                   </div>
-                  <span className="surrogate-report-body poppins px-15 fw-300">
-                    {report.body.length > 200
+                  <span className="surrogate-report-body poppins px-14 fw-300">
+                    {report.body.length > 120
                       ? `${report.body.substring(0, 120)}...`
                       : report.body}
                   </span>
                   <div className="flex-row space-between">
-                    <span className="flex-column align-center">
+                    <span className="flex-column">
                       <span
-                        className={`surrogate-report-verdict flex-row poppins fw-500 px-14 surrogate-report-${report.verdict.toLowerCase()}`}
+                        className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
                       >
                         {report.verdict}
                       </span>
@@ -147,7 +155,15 @@ export default function Home() {
                       </small>
                     </span>
 
-                    <span className="px-14 poppins fw-500 pointer">
+                    <span
+                      className="px-14 poppins fw-500 pointer"
+                      onClick={() => {
+                        setSurrogateReportModalDetails({
+                          state: true,
+                          content: report,
+                        });
+                      }}
+                    >
                       <u>View Full Report</u>
                     </span>
                   </div>

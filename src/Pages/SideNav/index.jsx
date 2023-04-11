@@ -11,7 +11,7 @@ export default function SideNav() {
         onClick={() => setSideNavOpen(!isSideNavOpen)}
         initial={false}
         animate={{
-          left: isSideNavOpen ? "300px" : "10px",
+          left: isSideNavOpen ? "300px" : "20px",
         }}
       >
         <i className={`fal fa-${isSideNavOpen ? "times" : "bars"}`}></i>
