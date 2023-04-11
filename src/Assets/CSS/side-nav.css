@@ -5,6 +5,14 @@
   position: fixed;
   z-index: 999;
 }
+.toggle-sidenav {
+  font-size: 25px;
+  color: rgb(31, 30, 30);
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  z-index: 9999;
+}
 .side-nav {
   align-items: center;
   width: 100%;

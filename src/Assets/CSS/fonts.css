@@ -1,3 +1,4 @@
+@import url("./text.css");
 /* Cinzel */
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap");
 
@@ -14,14 +15,4 @@
 }
 .poppins {
   font-family: "Poppins", sans-serif;
-}
-
-.fw-400 {
-  font-weight: 400;
-}
-.fw-500 {
-  font-weight: 500;
-}
-.fw-600 {
-  font-weight: 600;
 }

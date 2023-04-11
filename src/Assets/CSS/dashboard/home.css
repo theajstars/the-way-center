@@ -1,0 +1,70 @@
+.home-container {
+  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+}
+.home-container-left {
+  height: 100%;
+  align-items: center;
+}
+.home-avatar {
+  width: 150px;
+  border-radius: 50%;
+  background: linear-gradient(234.94deg, #40189d 17.25%, #7a189d 80.15%);
+  padding: 10px;
+}
+.home-username {
+  margin-top: 4px;
+}
+.home-divider {
+  background-color: #cecce4;
+  border: transparent;
+  height: 1px;
+  width: 100%;
+}
+.surrogate-record-overview {
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 10px;
+  overflow: clip;
+}
+.surrogate-record-overview-item {
+  margin: 15px 0;
+  width: 100%;
+  align-items: center;
+}
+.surrogate-record-overview-item:first-child {
+  margin-top: 30px;
+}
+.surrogate-record-overview-icon {
+  border: 1px solid var(--purple-primary);
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+}
+.surrogate-record-overview-image {
+  width: 40px;
+  margin-top: -8px;
+}
+.surrogate-record-overview-text {
+  max-width: 320px;
+}
+.more-surrogates {
+  background-color: #fff;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.25);
+  border-radius: 52px;
+  cursor: pointer;
+  transition-duration: 0.12s;
+}
+.more-surrogates:hover {
+  transform: scale(1.1);
+}

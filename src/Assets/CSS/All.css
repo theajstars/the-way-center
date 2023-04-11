@@ -5,6 +5,9 @@
 @import url("./top-nav.css");
 @import url("./side-nav.css");
 
+@import url("./dashboard/home.css");
+@import url("./dashboard.css");
+
 @import url("./small/SmallAuth.css");
 
 body {

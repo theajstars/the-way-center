@@ -3,7 +3,7 @@
   top: 0;
   right: 0;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 30px 20px;
 }
 .top-nav-button {
   justify-content: space-between;
