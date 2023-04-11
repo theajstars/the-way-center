@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import Logo from "../../Assets/IMG/Logo.png";
 import { validateEmail } from "../../App";
 import { useToasts } from "react-toast-notifications";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const { addToast } = useToasts();
+  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +24,8 @@ export default function Login() {
         });
       } else {
         addToast("Login successful", { appearance: "success" });
+        Cookies.set("token", "some_token_string");
+        navigate("/dashboard");
       }
     }
   };

@@ -27,6 +27,8 @@ export default function Home() {
   return (
     <div>
       <br />
+      <br />
+      <br />
       <Typography className="poppins fw-500" variant="h5">
         PARENT DASHBOARD
       </Typography>
