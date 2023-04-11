@@ -1,3 +1,6 @@
+.fw-300 {
+  font-weight: 300 !important;
+}
 .fw-400 {
   font-weight: 400 !important;
 }
@@ -17,6 +20,12 @@
   font-weight: 900 !important;
 }
 
+.px-10 {
+  font-size: 10px;
+}
+.px-11 {
+  font-size: 11px;
+}
 .px-12 {
   font-size: 12px;
 }
