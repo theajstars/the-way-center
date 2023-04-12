@@ -1,3 +1,6 @@
+.home-page {
+  padding-top: 120px;
+}
 .home-container {
   width: 100%;
   justify-content: space-between;
@@ -89,6 +92,8 @@
   box-sizing: border-box;
   padding: 20px;
   margin: 0px 10px;
+  justify-content: space-between;
+  height: 270px;
 }
 .surrogate-report:first-child {
   margin-left: 0;
@@ -109,7 +114,6 @@
 }
 .surrogate-report-body {
   line-height: 20px;
-  text-align: justify;
   margin: 7px 0px;
   margin-bottom: 10px;
 }
@@ -127,4 +131,11 @@
 .surrogate-report-unsatisfactory {
   background: #ffcaca;
   color: var(--red-default);
+}
+
+.surrogate-media-item {
+  object-fit: contain;
+}
+.surrogate-media-arrow {
+  margin: 0px 20px;
 }

@@ -6,11 +6,14 @@
 @import url("./side-nav.css");
 
 @import url("./modal.css");
+@import url("./youtube-embed.css");
 
 @import url("./dashboard/home.css");
 @import url("./dashboard.css");
 
 @import url("./small/SmallAuth.css");
+@import url("./small/SmallHome.css");
+@import url("./small/SmallTopNav.css");
 html {
   scroll-behavior: smooth;
 }

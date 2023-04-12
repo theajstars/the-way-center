@@ -1,3 +1,6 @@
+.toggle-topnav {
+  display: none;
+}
 .top-nav-container {
   position: absolute;
   top: 0;

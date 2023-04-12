@@ -2,11 +2,14 @@ import { useState, useRef } from "react";
 
 import { Typography, Modal } from "@mui/material";
 import { motion } from "framer-motion";
+import { useKeenSlider } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
 
 import { SurrogateRecords, SurrogateReports } from "../../Assets/Data";
 
 import AishaAvatar from "../../Assets/IMG/AishaAvatar.svg";
 import PurpleFlower from "../../Assets/IMG/PurpleFlower.svg";
+import YoutubeEmbed from "../YoutubeEmbed";
 export default function Home() {
   const ModifySurrogatesRef = useRef();
   const [SurrogateRecordsToDisplay, setSurrogateRecordsToDisplay] = useState(
@@ -17,21 +20,40 @@ export default function Home() {
       setSurrogateRecordsToDisplay(SurrogateRecords.slice(0, 4));
     } else {
       setSurrogateRecordsToDisplay(SurrogateRecords);
-      setTimeout(() => {
-        ModifySurrogatesRef.current?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }, 100);
     }
   };
 
   const [surrogateReportModalDetails, setSurrogateReportModalDetails] =
     useState({ state: false, content: null });
+
+  const screenWidth = window.innerWidth;
+  console.log(screenWidth);
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    loop: true,
+    slides: {
+      perView: screenWidth > 1400 ? 3 : screenWidth > 900 ? 2 : 1,
+      spacing: 15,
+    },
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
+    created() {
+      setLoaded(true);
+    },
+  });
+  const getSurrogateOverviewCount = () => {
+    if (screenWidth > 1450) {
+      return 3;
+    } else {
+      return 2;
+    }
+  };
   return (
-    <div>
-      <br />
-      <br />
-      <br />
+    <div className="home-page">
       <Typography className="poppins fw-500" variant="h5">
         PARENT DASHBOARD
       </Typography>
@@ -106,9 +128,10 @@ export default function Home() {
         </div>
 
         <div className="home-container-right flex-column">
-          <div className="flex-row space-between">
-            <span className="poppins fw-500 px-18">
-              Your Surrogate Reports from TWC
+          <div className="flex-row space-between align-center">
+            <span className="poppins fw-500 px-18 surrogate-reports-head">
+              Your Surrogate Reports
+              {/* Your Surrogate Reports from TWC */}
             </span>
             <span className="poppins fw-500 px-16 purple-default-text view-more-reports">
               View More
@@ -176,57 +199,101 @@ export default function Home() {
             </div>
           </Modal>
           <div className="surrogate-reports flex-row space-between">
-            {SurrogateReports.slice(0, 3).map((report, index) => {
-              return (
-                <div className="surrogate-report flex-column" key={index}>
-                  <div className="flex-row surrogate-report-top space-between">
-                    <div className="flex-column">
-                      <span className="cinzel px-14 gray-secondary-text surrogate-report-type">
-                        {report.type}
+            {SurrogateReports.slice(0, getSurrogateOverviewCount()).map(
+              (report, index) => {
+                return (
+                  <div className="surrogate-report flex-column" key={index}>
+                    <div className="flex-row surrogate-report-top space-between">
+                      <div className="flex-column">
+                        <span className="cinzel px-14 gray-secondary-text surrogate-report-type">
+                          {report.type}
+                        </span>
+                        <span className="cinzel px-16 surrogate-report-title">
+                          {report.title}
+                        </span>
+                      </div>
+                      <img
+                        src={AishaAvatar}
+                        alt=""
+                        className="surrogate-report-avatar"
+                      />
+                    </div>
+                    <span className="surrogate-report-body poppins px-14 fw-300">
+                      {report.body.length > 120
+                        ? `${report.body.substring(0, 120)}...`
+                        : report.body}
+                    </span>
+                    <div className="flex-row space-between">
+                      <span className="flex-column">
+                        <span
+                          className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
+                        >
+                          {report.verdict}
+                        </span>
+                        <small className="px-10 fw-500 poppins">
+                          Doctor’s Overall Remark
+                        </small>
                       </span>
-                      <span className="cinzel px-16 surrogate-report-title">
-                        {report.title}
+
+                      <span
+                        className="px-14 poppins fw-500 pointer"
+                        onClick={() => {
+                          setSurrogateReportModalDetails({
+                            state: true,
+                            content: report,
+                          });
+                        }}
+                      >
+                        <u>View Full Report</u>
                       </span>
                     </div>
-                    <img
-                      src={AishaAvatar}
-                      alt=""
-                      className="surrogate-report-avatar"
-                    />
                   </div>
-                  <span className="surrogate-report-body poppins px-14 fw-300">
-                    {report.body.length > 120
-                      ? `${report.body.substring(0, 120)}...`
-                      : report.body}
-                  </span>
-                  <div className="flex-row space-between">
-                    <span className="flex-column">
-                      <span
-                        className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
-                      >
-                        {report.verdict}
-                      </span>
-                      <small className="px-10 fw-500 poppins">
-                        Doctor’s Overall Remark
-                      </small>
-                    </span>
-
-                    <span
-                      className="px-14 poppins fw-500 pointer"
-                      onClick={() => {
-                        setSurrogateReportModalDetails({
-                          state: true,
-                          content: report,
-                        });
-                      }}
-                    >
-                      <u>View Full Report</u>
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
+          <span className="poppins fw-500 px-18">Your Surrogate Media</span>
+          <div ref={sliderRef} className="keen-slider">
+            <div className="keen-slider__slide surrogate-media-item">
+              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
+            </div>
+            <div className="keen-slider__slide surrogate-media-item">
+              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
+            </div>
+            <div className="keen-slider__slide surrogate-media-item">
+              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
+            </div>
+            <div className="keen-slider__slide surrogate-media-item">
+              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
+            </div>
+          </div>
+          <br />
+          {loaded && instanceRef.current && (
+            <center>
+              <span
+                className="px-30 pointer surrogate-media-arrow"
+                onClick={(e) =>
+                  e.stopPropagation() || instanceRef.current?.prev()
+                }
+                disabled={currentSlide === 0}
+              >
+                <i className="fas fa-long-arrow-alt-left"></i>
+              </span>
+
+              <span
+                className="px-30 pointer surrogate-media-arrow"
+                onClick={(e) =>
+                  e.stopPropagation() || instanceRef.current?.next()
+                }
+                disabled={
+                  currentSlide ===
+                  instanceRef.current.track.details.slides.length - 1
+                }
+              >
+                <i className="fas fa-long-arrow-alt-right"></i>
+              </span>
+            </center>
+          )}
         </div>
       </div>
     </div>
