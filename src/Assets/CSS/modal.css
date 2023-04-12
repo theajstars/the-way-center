@@ -2,6 +2,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  outline: none;
 }
 .default-modal-content {
   background-color: var(--purple-secondary);
@@ -12,4 +13,49 @@
   width: 800px;
   max-width: 90vw;
   max-height: 90vh;
+  box-sizing: border-box;
+  padding: 30px;
+}
+.full-surrogate-report-body {
+  text-align: justify;
+  line-height: 25px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.surrogate-report-modal-footer {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.close-surrogate-report {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  background-color: #000;
+  color: #fff;
+  width: 130px;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+}
+.modal-scrollbar {
+  padding-right: 10px;
+}
+.modal-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 20px;
+}
+
+/* Handle */
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

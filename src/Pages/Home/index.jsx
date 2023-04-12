@@ -114,9 +114,65 @@ export default function Home() {
               View More
             </span>
           </div>
-          <Modal open={surrogateReportModalDetails.state}>
-            <div className="default-modal-container flex-row">
-              <div className="default-modal-content surrogate-report-modal"></div>
+          <Modal
+            open={surrogateReportModalDetails.state}
+            onClose={(e, reason) => {
+              if (reason === "backdropClick") {
+                setSurrogateReportModalDetails({
+                  ...surrogateReportModalDetails,
+                  state: false,
+                });
+              }
+            }}
+            className="default-modal-container flex-row"
+          >
+            <div className="default-modal-content surrogate-report-modal flex-column">
+              <div className="flex-row align-center">
+                <div className="flex-column">
+                  <span className="cinzel px-16 gray-secondary-text surrogate-report-type">
+                    {surrogateReportModalDetails.content?.type}
+                  </span>
+                  <span className="cinzel px-19 surrogate-report-title">
+                    {surrogateReportModalDetails.content?.title}
+                  </span>
+                </div>
+                &nbsp; &nbsp; &nbsp;
+                <img
+                  src={AishaAvatar}
+                  alt=""
+                  className="surrogate-report-avatar"
+                />
+              </div>
+              <br />
+              <br />
+              <span className="fw-700 cinzel px-19">FULL REPORT</span>
+              <br />
+              <br />
+              <span className="px-15 gray-secondary-text poppins full-surrogate-report-body modal-scrollbar">
+                {surrogateReportModalDetails.content?.body}
+                <br />
+                <br />
+                {surrogateReportModalDetails.content?.body}
+                <br />
+                <br />
+                {surrogateReportModalDetails.content?.body}
+                <br />
+                <br />
+                {surrogateReportModalDetails.content?.body}
+              </span>
+              <div className="flex-row surrogate-report-modal-footer">
+                <span
+                  className="close-surrogate-report poppins flex-row pointer"
+                  onClick={() => {
+                    setSurrogateReportModalDetails({
+                      ...surrogateReportModalDetails,
+                      state: false,
+                    });
+                  }}
+                >
+                  Exit
+                </span>
+              </div>
             </div>
           </Modal>
           <div className="surrogate-reports flex-row space-between">
