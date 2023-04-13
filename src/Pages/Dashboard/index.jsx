@@ -1,5 +1,6 @@
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import Application from "../Application";
 import Home from "../Home";
 import SideNav from "../SideNav";
 import TopNav from "../TopNav";
@@ -13,6 +14,7 @@ export default function Dashboard() {
         <div className="dashboard-component">
           <Routes>
             <Route path="/" index element={<Home />} />
+            <Route path="/application" index element={<Application />} />
           </Routes>
         </div>
       </Container>
