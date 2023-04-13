@@ -18,6 +18,7 @@
 @import url("./small/SmallAuth.css");
 @import url("./small/SmallHome.css");
 @import url("./small/SmallTopNav.css");
+@import url("./small/SmallApplication.css");
 html {
   scroll-behavior: smooth;
 }

@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useState } from "react";
 import {
   AgeRanges,
@@ -38,6 +39,10 @@ export default function Application() {
   };
   return (
     <div className="flex-column application-container">
+      <Typography className="poppins fw-500" variant="h5">
+        PARENT DASHBOARD
+      </Typography>
+      <br />
       <span className="px-24 fw-600 poppins">Request A Surrogate</span>
       <small className="px-14 fw-300 poppins">
         Fill in the data for your preferred fit for a surrogate. It will take a
@@ -80,7 +85,7 @@ export default function Application() {
               onValueChange={handleEducationLevelChange}
             />
           </div>
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center application-select-row">
             <div className="surrogate-form-input flex-column">
               <span className="surrogate-form-label px-13 poppins">
                 Preferred Age Range
@@ -108,7 +113,7 @@ export default function Application() {
               />
             </div>
           </div>
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center application-select-row">
             <div className="surrogate-form-input flex-column">
               <span className="surrogate-form-label px-13 poppins">
                 Preferred Skin Colour
@@ -136,7 +141,7 @@ export default function Application() {
               />
             </div>
           </div>
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center application-select-row">
             <div className="surrogate-form-input flex-column">
               <span className="surrogate-form-label px-13 poppins">
                 Preferred Skin Colour
@@ -192,7 +197,7 @@ export default function Application() {
               onValueChange={handleEducationLevelChange}
             />
           </div>
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center application-select-row">
             <div className="surrogate-form-input flex-column">
               <span className="surrogate-form-label px-13 poppins">
                 Preferred Age Range
@@ -220,7 +225,7 @@ export default function Application() {
               />
             </div>
           </div>
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center application-select-row">
             <div className="surrogate-form-input flex-column">
               <span className="surrogate-form-label px-13 poppins">
                 Preferred Skin Colour
@@ -248,7 +253,7 @@ export default function Application() {
               />
             </div>
           </div>
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center application-select-row">
             <div className="surrogate-form-input flex-column">
               <span className="surrogate-form-label px-13 poppins">
                 Preferred Skin Colour

@@ -1,9 +1,18 @@
 import { useState } from "react";
 import Logo from "../../Assets/IMG/Logo.png";
 import { motion } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 export default function SideNav() {
   const [currentActiveLink, setCurrentActiveLink] = useState(null);
   const [isSideNavOpen, setSideNavOpen] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const pathname = location.pathname;
+  }, [location]);
+
   return (
     <>
       <motion.span
@@ -32,6 +41,7 @@ export default function SideNav() {
                     : "side-nav-link-inactive"
                 }`}
                 onClick={() => {
+                  navigate("/dashboard");
                   setCurrentActiveLink("Dashboard");
                 }}
               >
@@ -56,6 +66,7 @@ export default function SideNav() {
                     : "side-nav-link-inactive"
                 }`}
                 onClick={() => {
+                  navigate("/dashboard/application");
                   setCurrentActiveLink("Application");
                 }}
               >
