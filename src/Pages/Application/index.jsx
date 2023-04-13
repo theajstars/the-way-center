@@ -8,6 +8,8 @@ import {
   Nationalities,
   SkinColours,
 } from "../../Assets/Data";
+import AccountManagement from "../AccountManagement";
+
 import CustomSelect from "../CustomSelect";
 
 export default function Application() {
@@ -286,6 +288,7 @@ export default function Application() {
           </span>
         </div>
       </div>
+      <AccountManagement />
     </div>
   );
 }

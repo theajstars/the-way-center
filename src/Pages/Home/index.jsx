@@ -296,6 +296,7 @@ export default function Home() {
               </span>
             </center>
           )}
+          <AccountManagement />
         </div>
       </div>
     </div>

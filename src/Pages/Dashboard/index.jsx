@@ -19,7 +19,6 @@ export default function Dashboard() {
             <Route path="/application" index element={<Application />} />
           </Routes>
 
-          <AccountManagement />
           <Footer />
         </div>
       </Container>
