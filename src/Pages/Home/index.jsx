@@ -10,6 +10,8 @@ import { SurrogateRecords, SurrogateReports } from "../../Assets/Data";
 import AishaAvatar from "../../Assets/IMG/AishaAvatar.svg";
 import PurpleFlower from "../../Assets/IMG/PurpleFlower.svg";
 import YoutubeEmbed from "../YoutubeEmbed";
+import AccountManagement from "../AccountManagement";
+import Footer from "../Footer";
 export default function Home() {
   const ModifySurrogatesRef = useRef();
   const [SurrogateRecordsToDisplay, setSurrogateRecordsToDisplay] = useState(
@@ -294,6 +296,8 @@ export default function Home() {
               </span>
             </center>
           )}
+          <AccountManagement />
+          <Footer />
         </div>
       </div>
     </div>

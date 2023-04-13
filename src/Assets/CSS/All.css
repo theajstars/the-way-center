@@ -9,6 +9,8 @@
 @import url("./youtube-embed.css");
 
 @import url("./dashboard/home.css");
+@import url("./dashboard/account-management.css");
+@import url("./dashboard/footer.css");
 @import url("./dashboard.css");
 
 @import url("./small/SmallAuth.css");
