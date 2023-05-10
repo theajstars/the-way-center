@@ -15,7 +15,12 @@
 .modal-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
-
+.modal-input-row {
+  width: 100%;
+}
+.modal-input-full {
+  width: 100%;
+}
 /* Track */
 .modal-scrollbar::-webkit-scrollbar-track {
   background: #f1f1f1;

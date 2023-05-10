@@ -1,43 +1,98 @@
-import { Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+import { useEffect } from "react";
 import { useState } from "react";
+import { validateEmail } from "../../App";
 import {
   AgeRanges,
+  CountriesList,
   EducationLevels,
   HairColours,
   Locations,
-  Nationalities,
   SkinColours,
 } from "../../Assets/Data";
+import { validatePhone } from "../../Lib/Validate";
+import { useToasts } from "react-toast-notifications";
 import AccountManagement from "../AccountManagement";
 
 import CustomSelect from "../CustomSelect";
+import { PerformRequest } from "../../API/PerformRequests";
 
 export default function Application() {
+  const { removeAllToasts, addToast } = useToasts();
   const [applicationFormData, setApplicationFormData] = useState({
-    nationality: undefined,
-    educationLevel: undefined,
-    ageRange: undefined,
-    preferredLocation: undefined,
-    hairColour: undefined,
-    skinColour: undefined,
+    nationality: "",
+    educationLevel: "",
+    ageRange: "",
+    hairColour: "",
+    skinColour: "",
   });
-  const handleNationalitiesChange = (e) => {
-    setApplicationFormData({ ...applicationFormData, nationality: e });
+
+  const [isFormSubmitting, setFormSubmitting] = useState(false);
+
+  const [formErrors, setFormErrors] = useState({
+    nationality: false,
+    educationLevel: false,
+    ageRange: false,
+    hairColour: false,
+    skinColour: false,
+  });
+
+  const UpdateFormErrors = () => {
+    setFormErrors({
+      ...formErrors,
+      nationality: applicationFormData.nationality.length === 0,
+      educationLevel: applicationFormData.educationLevel.length === 0,
+      ageRange: applicationFormData.ageRange.length === 0,
+      hairColour: applicationFormData.hairColour.length === 0,
+      skinColour: applicationFormData.skinColour.length === 0,
+    });
   };
-  const handleEducationLevelChange = (e) => {
-    setApplicationFormData({ ...applicationFormData, educationLevel: e });
+  useEffect(() => {
+    SubmitApplication();
+  }, [formErrors]);
+
+  const SubmitApplication = async () => {
+    if (isFormSubmitting) {
+      const errors = Object.values(formErrors).filter((e) => e === true);
+      if (errors.length > 0) {
+        setFormSubmitting(false);
+
+        addToast("Please fill the form correctly", { appearance: "error" });
+      } else {
+        const data = {
+          skinColor: applicationFormData.skinColour,
+          ageRange: applicationFormData.ageRange,
+          educationLevel: applicationFormData.educationLevel,
+          hairColor: applicationFormData.hairColour,
+        };
+        const r = await PerformRequest.RequestSurrogate(data);
+        console.log(r);
+        const { message: responseMessage } = r.data;
+        if (r.data.status === "failed") {
+          addToast(responseMessage, { appearance: "error" });
+        } else {
+          addToast(responseMessage, { appearance: "success" });
+          // window.location.reload();
+        }
+      }
+    }
   };
-  const handleAgeRangeChange = (e) => {
-    setApplicationFormData({ ...applicationFormData, ageRange: e });
+  const defaultFullInputProps = {
+    variant: "standard",
+    spellCheck: false,
+    className: "modal-input-full px-14",
   };
-  const handleLocationChange = (e) => {
-    setApplicationFormData({ ...applicationFormData, preferredLocation: e });
-  };
-  const handleSkinColourChange = (e) => {
-    setApplicationFormData({ ...applicationFormData, skinColour: e });
-  };
-  const handleHairColourChange = (e) => {
-    setApplicationFormData({ ...applicationFormData, hairColour: e });
+  const defaultHalfInputProps = {
+    variant: "standard",
+    className: "modal-input-half px-14",
+    spellCheck: false,
   };
   return (
     <div className="flex-column application-container">
@@ -61,232 +116,175 @@ export default function Application() {
 
           <br />
           <br />
-          <div className="surrogate-form-input flex-column">
-            <span className="surrogate-form-label px-13 poppins">
-              Preferred Nationality
-            </span>
-
-            <CustomSelect
-              options={Nationalities}
-              value={applicationFormData.nationality}
-              placeholder="Select a Country"
-              onValueChange={handleNationalitiesChange}
-              halfWidth={false}
-            />
+          <div className="flex-row space-between modal-input-row form-select-row">
+            <FormControl
+              variant="standard"
+              {...defaultFullInputProps}
+              error={formErrors.nationality}
+            >
+              <InputLabel id="demo-simple-select-standard-label">
+                Preferred Nationality
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={applicationFormData.nationality}
+                onChange={(e) => {
+                  setApplicationFormData({
+                    ...applicationFormData,
+                    nationality: e.target.value,
+                  });
+                }}
+                label="Select a Country"
+              >
+                {CountriesList.map((country, index) => {
+                  return (
+                    <MenuItem value={country.name} key={country.name}>
+                      {country.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
-          <div className="surrogate-form-input flex-column">
-            <span className="surrogate-form-label px-13 poppins">
-              Preferred Education Level
-            </span>
-
-            <CustomSelect
-              options={EducationLevels}
-              value={applicationFormData.educationLevel}
-              placeholder="Select Education Level"
-              halfWidth={false}
-              onValueChange={handleEducationLevelChange}
-            />
+          <div className="flex-row space-between modal-input-row form-select-row">
+            <FormControl
+              variant="standard"
+              {...defaultFullInputProps}
+              error={formErrors.educationLevel}
+            >
+              <InputLabel id="demo-simple-select-standard-label">
+                Preferred Education Level
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={applicationFormData.educationLevel}
+                onChange={(e) => {
+                  setApplicationFormData({
+                    ...applicationFormData,
+                    educationLevel: e.target.value,
+                  });
+                }}
+                label="Select Education Level"
+              >
+                {EducationLevels.map((education, index) => {
+                  return (
+                    <MenuItem value={education.level} key={education.level}>
+                      {education.level}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
-          <div className="flex-row space-between align-center application-select-row">
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
+          <div className="flex-row space-between modal-input-row form-select-row">
+            <FormControl
+              variant="standard"
+              {...defaultFullInputProps}
+              error={formErrors.ageRange}
+            >
+              <InputLabel id="demo-simple-select-standard-label">
                 Preferred Age Range
-              </span>
-
-              <CustomSelect
-                options={AgeRanges}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
                 value={applicationFormData.ageRange}
-                placeholder="Select Age Range"
-                onValueChange={handleAgeRangeChange}
-                halfWidth={true}
-              />
-            </div>
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Location
-              </span>
-
-              <CustomSelect
-                options={Locations}
-                value={applicationFormData.preferredLocation}
-                placeholder="Select Location"
-                onValueChange={handleLocationChange}
-                halfWidth={true}
-              />
-            </div>
+                onChange={(e) => {
+                  setApplicationFormData({
+                    ...applicationFormData,
+                    ageRange: e.target.value,
+                  });
+                }}
+                label="Preferred Age Range"
+              >
+                {AgeRanges.map((age, index) => {
+                  return (
+                    <MenuItem value={age.age} key={age.age}>
+                      {age.age}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
-          <div className="flex-row space-between align-center application-select-row">
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Skin Colour
-              </span>
 
-              <CustomSelect
-                options={SkinColours}
+          <div className="flex-row space-between modal-input-row form-select-row">
+            <FormControl
+              variant="standard"
+              {...defaultFullInputProps}
+              error={formErrors.skinColour}
+            >
+              <InputLabel id="demo-simple-select-standard-label">
+                Preferred Skin Color
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
                 value={applicationFormData.skinColour}
-                placeholder="Select Skin Colour"
-                onValueChange={handleAgeRangeChange}
-                halfWidth={true}
-              />
-            </div>
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Hair Colour
-              </span>
-
-              <CustomSelect
-                options={HairColours}
-                value={applicationFormData.hairColour}
-                placeholder="Select Hair Colour"
-                onValueChange={handleLocationChange}
-                halfWidth={true}
-              />
-            </div>
+                onChange={(e) => {
+                  setApplicationFormData({
+                    ...applicationFormData,
+                    skinColour: e.target.value,
+                  });
+                }}
+                label="Preferred Skin Color"
+              >
+                {SkinColours.map((color, index) => {
+                  return (
+                    <MenuItem value={color.color} key={color.color}>
+                      {color.color}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
-          <div className="flex-row space-between align-center application-select-row">
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Skin Colour
-              </span>
-
-              <CustomSelect
-                options={SkinColours}
-                value={applicationFormData.skinColour}
-                placeholder="Select Skin Colour"
-                onValueChange={handleAgeRangeChange}
-                halfWidth={true}
-              />
-            </div>
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Hair Colour
-              </span>
-
-              <CustomSelect
-                options={HairColours}
+          <div className="flex-row space-between modal-input-row form-select-row">
+            <FormControl
+              variant="standard"
+              {...defaultFullInputProps}
+              error={formErrors.hairColour}
+            >
+              <InputLabel id="demo-simple-select-standard-label">
+                Preferred Hair Color
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
                 value={applicationFormData.hairColour}
-                placeholder="Select Hair Colour"
-                onValueChange={handleLocationChange}
-                halfWidth={true}
-              />
-            </div>
+                onChange={(e) => {
+                  setApplicationFormData({
+                    ...applicationFormData,
+                    hairColour: e.target.value,
+                  });
+                }}
+                label="Preferred Hair Color"
+              >
+                {HairColours.map((color, index) => {
+                  return (
+                    <MenuItem value={color.color} key={color.color}>
+                      {color.color}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </div>
         </div>
-        <div className="surrogate-form-right flex-column">
-          <div className="surrogate-form-input flex-column">
-            <span className="surrogate-form-label px-13 poppins">
-              Preferred Nationality
-            </span>
-
-            <CustomSelect
-              options={Nationalities}
-              value={applicationFormData.nationality}
-              placeholder="Select a Country"
-              onValueChange={handleNationalitiesChange}
-              halfWidth={false}
-            />
-          </div>
-          <div className="surrogate-form-input flex-column">
-            <span className="surrogate-form-label px-13 poppins">
-              Preferred Education Level
-            </span>
-
-            <CustomSelect
-              options={EducationLevels}
-              value={applicationFormData.educationLevel}
-              placeholder="Select Education Level"
-              halfWidth={false}
-              onValueChange={handleEducationLevelChange}
-            />
-          </div>
-          <div className="flex-row space-between align-center application-select-row">
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Age Range
-              </span>
-
-              <CustomSelect
-                options={AgeRanges}
-                value={applicationFormData.ageRange}
-                placeholder="Select Age Range"
-                onValueChange={handleAgeRangeChange}
-                halfWidth={true}
-              />
-            </div>
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Location
-              </span>
-
-              <CustomSelect
-                options={Locations}
-                value={applicationFormData.preferredLocation}
-                placeholder="Select Location"
-                onValueChange={handleLocationChange}
-                halfWidth={true}
-              />
-            </div>
-          </div>
-          <div className="flex-row space-between align-center application-select-row">
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Skin Colour
-              </span>
-
-              <CustomSelect
-                options={SkinColours}
-                value={applicationFormData.skinColour}
-                placeholder="Select Skin Colour"
-                onValueChange={handleAgeRangeChange}
-                halfWidth={true}
-              />
-            </div>
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Hair Colour
-              </span>
-
-              <CustomSelect
-                options={HairColours}
-                value={applicationFormData.hairColour}
-                placeholder="Select Hair Colour"
-                onValueChange={handleLocationChange}
-                halfWidth={true}
-              />
-            </div>
-          </div>
-          <div className="flex-row space-between align-center application-select-row">
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Skin Colour
-              </span>
-
-              <CustomSelect
-                options={SkinColours}
-                value={applicationFormData.skinColour}
-                placeholder="Select Skin Colour"
-                onValueChange={handleAgeRangeChange}
-                halfWidth={true}
-              />
-            </div>
-            <div className="surrogate-form-input flex-column">
-              <span className="surrogate-form-label px-13 poppins">
-                Preferred Hair Colour
-              </span>
-
-              <CustomSelect
-                options={HairColours}
-                value={applicationFormData.hairColour}
-                placeholder="Select Hair Colour"
-                onValueChange={handleLocationChange}
-                halfWidth={true}
-              />
-            </div>
-          </div>
-          <span className="submit-application-form flex-row px-15 fw-500 poppins pointer">
-            Submit Request
-          </span>
-        </div>
+        <br />
+        <Button
+          variant="contained"
+          style={{ width: "200px" }}
+          onClick={() => {
+            UpdateFormErrors();
+            setFormSubmitting(true);
+          }}
+        >
+          Submit &nbsp;
+          {isFormSubmitting && <i className="far fa-spinner-third fa-spin" />}
+        </Button>
       </div>
       <AccountManagement />
     </div>

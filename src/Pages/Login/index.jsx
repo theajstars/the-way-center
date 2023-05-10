@@ -29,6 +29,14 @@ export default function Login() {
       }
     }
   };
+  const RequestOTP = () => {
+    const isEmailValid = validateEmail(email);
+    if (!isEmailValid) {
+      addToast("Please enter a valid email", { appearance: "error" });
+    } else {
+      addToast("OTP has been sent to your email", { appearance: "success" });
+    }
+  };
   return (
     <>
       <div className="auth-bg flex-row">
@@ -97,9 +105,14 @@ export default function Login() {
                 Forgot Password?
               </Link>
             </div>
-            <button type="submit" className="auth-btn">
-              SIGN IN
-            </button>
+            <div className="flex-row space-between">
+              <button type={RequestOTP} className="auth-btn auth-btn-half">
+                Request OTP
+              </button>
+              <button type="submit" className="auth-btn auth-btn-half">
+                SIGN IN
+              </button>
+            </div>
           </form>
         </div>
       </div>

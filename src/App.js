@@ -21,6 +21,52 @@ function validateEmail(email) {
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
+function validateBVN(bvn) {
+  if (isNaN(parseInt(bvn[0])) || parseInt(bvn[0]) === 0) {
+    return false;
+  } else {
+    if (bvn.length !== 11) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+function validateNIN(nin) {
+  if (isNaN(parseInt(nin[0])) || parseInt(nin[0]) === 0) {
+    return false;
+  } else {
+    if (nin.length !== 11) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+function getFullDate(dateString) {
+  var month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const d = new Date(dateString);
+  const m = month[d.getMonth()];
+  const date = d.getDate();
+  const hour = d.getHours();
+  const minute = d.getMinutes();
+
+  return `${m} ${date}, ${hour}:${minute}`;
+}
 
 function App() {
   const token = Cookies.get("token");
@@ -32,6 +78,7 @@ function App() {
   //     // Send to dashboard
   //   }
   // }, []);
+
   return (
     <Router>
       <Routes>
@@ -48,4 +95,4 @@ function App() {
 }
 
 export default App;
-export { validateEmail };
+export { validateEmail, validateBVN, validateNIN, getFullDate };

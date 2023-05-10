@@ -12,6 +12,9 @@ export default function SideNav() {
   useEffect(() => {
     const pathname = location.pathname;
   }, [location]);
+  useEffect(() => {
+    setSideNavOpen(false);
+  }, [currentActiveLink]);
 
   return (
     <>
