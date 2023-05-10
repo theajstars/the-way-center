@@ -106,7 +106,7 @@ export default function Application() {
         couple of minutes
       </small>
 
-      <div className="flex-row surrogate-form-container">
+      <div className="flex-column surrogate-form-container">
         <div className="surrogate-form-left flex-column">
           <span className="fw-600 px-19 poppins">Data Bank</span>
           <span className="px-14 poppins fw-300 surrogate-form-about">
