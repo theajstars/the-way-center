@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, createContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Container } from "@mui/material";
 
 import Application from "../Application";
@@ -8,6 +8,7 @@ import Home from "../Home";
 import SideNav from "../SideNav";
 import TopNav from "../TopNav";
 import { PerformRequest } from "../../API/PerformRequests";
+import { ChakraProvider, useToast } from "@chakra-ui/react";
 
 const initialContext = {
   CountriesList: [],
@@ -33,6 +34,21 @@ const initialContext = {
 };
 const DefaultContext = createContext(initialContext);
 
+function ShowToast({ isLoggedIn, firstname, lastname }) {
+  const toast = useToast();
+
+  useEffect(() => {
+    setTimeout(() => {
+      toast({
+        title: "Login Successful.",
+        description: `Welcome to your dashboard ${firstname} ${lastname}`,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }, 1500);
+  }, []);
+}
 export default function Dashboard() {
   const [countries, setCountries] = useState([]);
 
@@ -103,6 +119,9 @@ export default function Dashboard() {
           Profile: profile,
         }}
       >
+        <ChakraProvider>
+          <ShowToast firstname="Claudia" lastname="Thomas" />
+        </ChakraProvider>
         <TopNav />
         <SideNav />
         <Container maxWidth="xl">

@@ -13,6 +13,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const LoginUser = () => {
     const isEmailValid = validateEmail(email);
     if (!isEmailValid) {
@@ -23,9 +24,9 @@ export default function Login() {
           appearance: "error",
         });
       } else {
-        addToast("Login successful", { appearance: "success" });
-        Cookies.set("token", "some_token_string");
         navigate("/dashboard");
+        setLoggedIn(true);
+        Cookies.set("token", "some_token_string");
       }
     }
   };
