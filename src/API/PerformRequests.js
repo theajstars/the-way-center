@@ -1,6 +1,12 @@
 import { Endpoints } from "./Endpoints";
 import { FetchData } from "./FetchData";
 
+const GetProfile = async () => {
+  return FetchData({
+    method: "GET",
+    route: Endpoints.Profile,
+  });
+};
 const CreateNewSurrogate = async (surrogate) => {
   return FetchData({
     method: "POST",
@@ -52,7 +58,13 @@ const UpdateParent = async (parent) => {
     data: parent,
   });
 };
-
+const UpdatePairing = async ({ pairingID, status }) => {
+  return FetchData({
+    method: "POST",
+    route: Endpoints.UpdatePairing,
+    data: { pairID: pairingID, status },
+  });
+};
 const CreatePairing = async (pairingForm) => {
   return FetchData({
     method: "POST",
@@ -95,6 +107,24 @@ const GetCountries = async () => {
     route: Endpoints.GetCountries,
   });
 };
+const GetRelationships = async () => {
+  return FetchData({
+    method: "GET",
+    route: Endpoints.GetRelationships,
+  });
+};
+const GetTribes = async () => {
+  return FetchData({
+    method: "GET",
+    route: Endpoints.GetTribes,
+  });
+};
+const GetReligions = async () => {
+  return FetchData({
+    method: "GET",
+    route: Endpoints.GetReligions,
+  });
+};
 const GetMetrics = async () => {
   return FetchData({
     method: "GET",
@@ -128,7 +158,14 @@ const GetCurrentMessages = async (reference) => {
     route: `${Endpoints.GetCurrentMessages}?reference=${reference}`,
   });
 };
-
+const GetReports = async ({ page, limit, parentID, surrogateID }) => {
+  return FetchData({
+    method: "GET",
+    route: `${Endpoints.GetReports}?page=${page ?? ""}&limit=${
+      limit ?? ""
+    }&parentID=${parentID ?? ""}&surrogateID=${surrogateID ?? ""}`,
+  });
+};
 const PerformRequest = {
   CreateNewSurrogate,
   CreateNewParent,
@@ -140,12 +177,19 @@ const PerformRequest = {
   UpdateParent,
   CreatePairing,
   CreateReport,
+  GetReports,
   AddReportFile,
   SendReportNotification,
   CreateMessageReference,
   SendMessage,
   GetMessageList,
   GetCurrentMessages,
+  GetRelationships,
+  GetTribes,
+  GetReligions,
+  UpdatePairing,
+  GetProfile,
+
   RequestSurrogate,
 };
 

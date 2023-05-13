@@ -1,3 +1,4 @@
+import { useEffect, useState, useContext } from "react";
 import {
   Button,
   FormControl,
@@ -6,52 +7,42 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
-import { useState } from "react";
 import { validateEmail } from "../../App";
-import {
-  AgeRanges,
-  CountriesList,
-  EducationLevels,
-  HairColours,
-  Locations,
-  SkinColours,
-} from "../../Assets/Data";
+import { AgeRanges, CountriesList, EducationLevels } from "../../Assets/Data";
 import { validatePhone } from "../../Lib/Validate";
 import { useToasts } from "react-toast-notifications";
 import AccountManagement from "../AccountManagement";
 
 import CustomSelect from "../CustomSelect";
 import { PerformRequest } from "../../API/PerformRequests";
+import { DefaultContext } from "../Dashboard";
 
 export default function Application() {
+  const ContextConsumer = useContext(DefaultContext);
   const { removeAllToasts, addToast } = useToasts();
   const [applicationFormData, setApplicationFormData] = useState({
-    nationality: "",
+    tribe: "",
     educationLevel: "",
     ageRange: "",
-    hairColour: "",
-    skinColour: "",
+    religion: "",
   });
 
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
-    nationality: false,
+    tribe: false,
     educationLevel: false,
     ageRange: false,
-    hairColour: false,
-    skinColour: false,
+    religion: false,
   });
 
   const UpdateFormErrors = () => {
     setFormErrors({
       ...formErrors,
-      nationality: applicationFormData.nationality.length === 0,
+      tribe: applicationFormData.tribe.length === 0,
       educationLevel: applicationFormData.educationLevel.length === 0,
       ageRange: applicationFormData.ageRange.length === 0,
-      hairColour: applicationFormData.hairColour.length === 0,
-      skinColour: applicationFormData.skinColour.length === 0,
+      religion: applicationFormData.religion.length === 0,
     });
   };
   useEffect(() => {
@@ -214,27 +205,27 @@ export default function Application() {
             <FormControl
               variant="standard"
               {...defaultFullInputProps}
-              error={formErrors.skinColour}
+              error={formErrors.religion}
             >
               <InputLabel id="demo-simple-select-standard-label">
-                Preferred Skin Color
+                Preferred Religion
               </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={applicationFormData.skinColour}
+                value={applicationFormData.religion}
                 onChange={(e) => {
                   setApplicationFormData({
                     ...applicationFormData,
-                    skinColour: e.target.value,
+                    religion: e.target.value,
                   });
                 }}
-                label="Preferred Skin Color"
+                label="Preferred Religion"
               >
-                {SkinColours.map((color, index) => {
+                {ContextConsumer.Religions.map((religion, index) => {
                   return (
-                    <MenuItem value={color.color} key={color.color}>
-                      {color.color}
+                    <MenuItem value={religion.tribe} key={religion.tribe}>
+                      {religion.tribe}
                     </MenuItem>
                   );
                 })}
@@ -245,27 +236,27 @@ export default function Application() {
             <FormControl
               variant="standard"
               {...defaultFullInputProps}
-              error={formErrors.hairColour}
+              error={formErrors.tribe}
             >
               <InputLabel id="demo-simple-select-standard-label">
-                Preferred Hair Color
+                Preferred Tribe
               </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={applicationFormData.hairColour}
+                value={applicationFormData.tribe}
                 onChange={(e) => {
                   setApplicationFormData({
                     ...applicationFormData,
-                    hairColour: e.target.value,
+                    tribe: e.target.value,
                   });
                 }}
-                label="Preferred Hair Color"
+                label="Preferred Tribe"
               >
-                {HairColours.map((color, index) => {
+                {ContextConsumer.Tribes.map((tribe, index) => {
                   return (
-                    <MenuItem value={color.color} key={color.color}>
-                      {color.color}
+                    <MenuItem value={tribe.tribe} key={tribe.tribe}>
+                      {tribe.tribe}
                     </MenuItem>
                   );
                 })}

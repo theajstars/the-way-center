@@ -118,7 +118,7 @@ export default function SideNav() {
                     : "side-nav-link-inactive"
                 }`}
                 onClick={() => {
-                  setCurrentActiveLink("Logout");
+                  navigate("/login");
                 }}
               >
                 Logout

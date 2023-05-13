@@ -6,6 +6,10 @@ const Endpoints = {
   UploadFile: "/misc/file-upload",
   GetCountries: "/misc/country",
   GetMetrics: "/console/metrics",
+  GetRelationships: "/misc/relationship",
+  GetTribes: "/misc/tribe",
+  GetReligions: "/misc/religion",
+  GetMetrics: "/console/metrics",
 
   AddTeamMember: "/console/team/add",
 
@@ -19,15 +23,20 @@ const Endpoints = {
   UpdateSurrogate: "/surrogate/update",
 
   CreatePairing: "/pair/create",
+  GetPairingDetails: "/pair/details",
+  UpdatePairing: "/pair/update",
+
   AddReportFile: "/report/files/add",
   CreateReport: "/report/create",
   SendReportNotification: "/report/send-notification",
-  RequestSurrogate: "/pair/request",
+  GetReports: "/report/details",
 
   GetMessageList: "/message/list",
   SendMessage: "/message/send",
   CreateMessageReference: "/message/create",
   GetCurrentMessages: "/message/logs",
+
+  RequestSurrogate: "/pair/request",
 };
 
 export { Endpoints };
