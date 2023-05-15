@@ -1,11 +1,15 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 
-import { Typography, Modal } from "@mui/material";
+import { Typography, Modal, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-import { SurrogateRecords, SurrogateReports } from "../../Assets/Data";
+import {
+  ReportCategories,
+  SurrogateRecords,
+  SurrogateReports,
+} from "../../Assets/Data";
 
 import AishaAvatar from "../../Assets/IMG/AishaAvatar.svg";
 import DefaultAvatar from "../../Assets/IMG/DefaultAvatar.jpg";
@@ -15,9 +19,18 @@ import AccountManagement from "../AccountManagement";
 import Footer from "../Footer";
 import { DefaultContext } from "../Dashboard";
 import SurrogateProfileView from "../SurrogateProfileView";
+import { PerformRequest } from "../../API/PerformRequests";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const ConsumerContext = useContext(DefaultContext);
+  const getSurrogateDetails = () => {
+    if (ConsumerContext.Profile.details.pair) {
+      if (ConsumerContext.Profile.details.pair.details.surrogate) {
+        return ConsumerContext.Profile.details.pair.details.surrogate;
+      }
+    }
+  };
   const ModifySurrogatesRef = useRef();
   const [SurrogateRecordsToDisplay, setSurrogateRecordsToDisplay] = useState(
     SurrogateRecords.slice(0, 4)
@@ -37,6 +50,24 @@ export default function Home() {
   console.log(screenWidth);
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [surrogateReports, setSurrogateReports] = useState([]);
+  const getReportCategory = (category) => {
+    const f = ReportCategories.filter((c) => c.value === category);
+    if (f.length === 0) {
+      return "Medical";
+    } else {
+      return f[0].name;
+    }
+  };
+  const fetchSurrogateReports = async () => {
+    // const surrogateID = getSurrogateDetails()
+    const r = await PerformRequest.GetReports({});
+    console.log(r);
+    setSurrogateReports(r.data.status === "success" ? r.data.data : []);
+  };
+  useEffect(() => {
+    fetchSurrogateReports();
+  }, []);
   const [loaded, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
@@ -57,14 +88,6 @@ export default function Home() {
       return 3;
     } else {
       return 2;
-    }
-  };
-
-  const getSurrogateDetails = () => {
-    if (ConsumerContext.Profile.details.pair) {
-      if (ConsumerContext.Profile.details.pair.details.surrogate) {
-        return ConsumerContext.Profile.details.pair.details.surrogate;
-      }
     }
   };
 
@@ -167,9 +190,12 @@ export default function Home() {
               Your Surrogate Reports
               {/* Your Surrogate Reports from TWC */}
             </span>
-            <span className="poppins fw-500 px-16 purple-default-text view-more-reports">
+            <Link
+              to="/dashboard/reports"
+              className="poppins fw-500 px-16 purple-default-text view-more-reports"
+            >
               View More
-            </span>
+            </Link>
           </div>
           <Modal
             open={surrogateReportModalDetails.state}
@@ -186,8 +212,10 @@ export default function Home() {
             <div className="default-modal-content surrogate-report-modal flex-column">
               <div className="flex-row align-center">
                 <div className="flex-column">
-                  <span className="cinzel px-16 gray-secondary-text surrogate-report-type">
-                    {surrogateReportModalDetails.content?.type}
+                  <span className="cinzel px-19 capitalize">
+                    {surrogateReportModalDetails.content?.parent.firstname}
+                    &nbsp;
+                    {surrogateReportModalDetails.content?.parent.lastname}
                   </span>
                   <span className="cinzel px-19 surrogate-report-title">
                     {surrogateReportModalDetails.content?.title}
@@ -195,27 +223,51 @@ export default function Home() {
                 </div>
                 &nbsp; &nbsp; &nbsp;
                 <img
-                  src={AishaAvatar}
+                  src={surrogateReportModalDetails.content?.parent.image}
                   alt=""
                   className="surrogate-report-avatar"
                 />
               </div>
               <br />
-              <br />
               <span className="fw-700 cinzel px-19">FULL REPORT</span>
+
               <br />
+              <span className="fw-600 poppins px-19 underline">
+                {getReportCategory(
+                  surrogateReportModalDetails.content?.reportCategory
+                )}{" "}
+                Report
+              </span>
+              <br />
+              <div className="flex-row align-center">
+                <span className="fw-400 poppins px-16">Surrogate: &nbsp;</span>
+                <span className="fw-700 poppins px-16 capitalize">
+                  {surrogateReportModalDetails.content?.surrogate.firstname}
+                  &nbsp;
+                  {surrogateReportModalDetails.content?.surrogate.lastname}
+                </span>
+              </div>
+              <br />
+              <div className="flex-row align-center">
+                <span className="fw-400 poppins px-16">
+                  Health Practitioner: &nbsp;
+                </span>
+                <span className="fw-700 poppins px-16">
+                  {surrogateReportModalDetails.content?.healthPractitioner}
+                </span>
+              </div>
+              <br />
+              <div className="flex-row align-center">
+                <span className="fw-400 poppins px-16">
+                  Health Center: &nbsp;
+                </span>
+                <span className="fw-700 poppins px-16">
+                  {surrogateReportModalDetails.content?.healthCenter}
+                </span>
+              </div>
               <br />
               <span className="px-15 gray-secondary-text poppins full-surrogate-report-body modal-scrollbar">
-                {surrogateReportModalDetails.content?.body}
-                <br />
-                <br />
-                {surrogateReportModalDetails.content?.body}
-                <br />
-                <br />
-                {surrogateReportModalDetails.content?.body}
-                <br />
-                <br />
-                {surrogateReportModalDetails.content?.body}
+                {surrogateReportModalDetails.content?.details}
               </span>
               <div className="flex-row surrogate-report-modal-footer">
                 <span
@@ -233,36 +285,38 @@ export default function Home() {
             </div>
           </Modal>
           <div className="surrogate-reports flex-row space-between">
-            {SurrogateReports.slice(0, getSurrogateOverviewCount()).map(
-              (report, index) => {
+            {surrogateReports.map((report, index) => {
+              if (index === 0 || index === 1) {
                 return (
-                  <div className="surrogate-report flex-column" key={index}>
+                  <div className="surrogate-report flex-column">
                     <div className="flex-row surrogate-report-top space-between">
                       <div className="flex-column">
                         <span className="cinzel px-14 gray-secondary-text surrogate-report-type">
-                          {report.type}
+                          {report.parent.firstname} {report.parent.lastname}
                         </span>
                         <span className="cinzel px-16 surrogate-report-title">
-                          {report.title}
+                          {getReportCategory(report.reportCategory)} Report
                         </span>
                       </div>
                       <img
-                        src={AishaAvatar}
+                        src={report.parent.image}
                         alt=""
                         className="surrogate-report-avatar"
                       />
                     </div>
                     <span className="surrogate-report-body poppins px-14 fw-300">
-                      {report.body.length > 120
-                        ? `${report.body.substring(0, 120)}...`
-                        : report.body}
+                      {report.details.length > 120
+                        ? `${report.details.substring(0, 120)}...`
+                        : report.details}
                     </span>
                     <div className="flex-row space-between">
                       <span className="flex-column">
                         <span
-                          className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
+                          className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-satisfactory`}
+                          // className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
                         >
-                          {report.verdict}
+                          Satisfactory
+                          {/* {report.verdict} */}
                         </span>
                         <small className="px-10 fw-500 poppins">
                           Doctor’s Overall Remark
@@ -284,7 +338,7 @@ export default function Home() {
                   </div>
                 );
               }
-            )}
+            })}
           </div>
           <span className="poppins fw-500 px-18">Your Surrogate Media</span>
           <div ref={sliderRef} className="keen-slider">

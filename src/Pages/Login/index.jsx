@@ -25,7 +25,9 @@ export default function Login() {
           appearance: "error",
         });
       } else {
-        const r = await PerformRequest.Login({ email, password });
+        const r = await PerformRequest.Login({ email, password }).catch(() => {
+          addToast("An Error Occured", { appearance: "error" });
+        });
         console.log(r);
         if (r.data.status === "failed") {
           addToast(r.data.message, { appearance: "error" });
@@ -41,9 +43,15 @@ export default function Login() {
     if (!isEmailValid) {
       addToast("Please enter a valid email", { appearance: "error" });
     } else {
-      const r = await PerformRequest.RequestOTP({ email });
+      const r = await PerformRequest.RequestOTP({ email }).catch(() => {
+        addToast("An Error Occured", { appearance: "error" });
+      });
       console.log(r);
-      addToast("OTP has been sent to your email", { appearance: "success" });
+      if (r.data.status === "failed") {
+        addToast(r.data.message, { appearance: "error" });
+      } else {
+        addToast("OTP has been sent to your email", { appearance: "success" });
+      }
     }
   };
   return (

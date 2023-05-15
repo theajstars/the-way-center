@@ -75,6 +75,20 @@ export default function SideNav() {
               >
                 Application
               </span>
+
+              <span
+                className={`side-nav-link cinzel ${
+                  currentActiveLink === "Reports"
+                    ? "side-nav-link-active"
+                    : "side-nav-link-inactive"
+                }`}
+                onClick={() => {
+                  setCurrentActiveLink("Reports");
+                  navigate("/dashboard/reports");
+                }}
+              >
+                Reports
+              </span>
               <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Message"
@@ -98,18 +112,6 @@ export default function SideNav() {
                 }}
               >
                 My Profile
-              </span>
-              <span
-                className={`side-nav-link cinzel ${
-                  currentActiveLink === "News"
-                    ? "side-nav-link-active"
-                    : "side-nav-link-inactive"
-                }`}
-                onClick={() => {
-                  setCurrentActiveLink("News");
-                }}
-              >
-                News
               </span>
               <span
                 className={`side-nav-link cinzel ${
