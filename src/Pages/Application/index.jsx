@@ -75,6 +75,7 @@ export default function Application() {
         const r = await PerformRequest.RequestSurrogate(data).catch(() =>
           setFormSubmitting(false)
         );
+        setFormSubmitting(false);
         console.log(r);
         const { message: responseMessage } = r.data;
         if (r.data.status === "failed") {

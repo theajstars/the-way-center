@@ -50,7 +50,7 @@ export default function SideNav() {
               >
                 Dashboard
               </span>
-              <span
+              {/* <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Surrogate"
                     ? "side-nav-link-active"
@@ -61,7 +61,7 @@ export default function SideNav() {
                 }}
               >
                 My Surrogate
-              </span>
+              </span> */}
               <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Application"
