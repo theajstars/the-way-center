@@ -1,6 +1,19 @@
 import { useState, useRef, useContext, useEffect } from "react";
 
-import { Typography, Modal, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+
+import {
+  Typography,
+  Modal,
+  Button,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+} from "@mui/material";
+
+import { useToasts } from "react-toast-notifications";
+
 import { motion } from "framer-motion";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
@@ -12,6 +25,7 @@ import {
 } from "../../Assets/Data";
 
 import AishaAvatar from "../../Assets/IMG/AishaAvatar.svg";
+import Logo from "../../Assets/IMG/Logo.png";
 import DefaultAvatar from "../../Assets/IMG/DefaultAvatar.jpg";
 import PurpleFlower from "../../Assets/IMG/PurpleFlower.svg";
 import YoutubeEmbed from "../YoutubeEmbed";
@@ -20,10 +34,11 @@ import Footer from "../Footer";
 import { DefaultContext } from "../Dashboard";
 import SurrogateProfileView from "../SurrogateProfileView";
 import { PerformRequest } from "../../API/PerformRequests";
-import { Link } from "react-router-dom";
+import { getFullDate } from "../../App";
 
 export default function Home() {
   const ConsumerContext = useContext(DefaultContext);
+  const { addToast, removeAllToasts } = useToasts();
   const getSurrogateDetails = () => {
     if (ConsumerContext.Profile.details.pair) {
       if (ConsumerContext.Profile.details.pair.details.surrogate) {
@@ -49,7 +64,6 @@ export default function Home() {
   const screenWidth = window.innerWidth;
   console.log(screenWidth);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [surrogateReports, setSurrogateReports] = useState([]);
   const [surrogateMedia, setSurrogateMedia] = useState([]);
   const getReportCategory = (category) => {
@@ -72,12 +86,16 @@ export default function Home() {
           reportID: report.id,
         });
         console.log(getMedia);
+        getMedia.data.data && getMedia.data.data.length !== 0
+          ? setSurrogateMedia([...surrogateMedia, getMedia.data.data[0]])
+          : addToast("Unable to fetch your media", { appearance: "error" });
       });
     }
   };
   useEffect(() => {
     fetchSurrogateReports();
   }, []);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
@@ -354,38 +372,69 @@ export default function Home() {
             {surrogateMedia.map((media) => {
               return (
                 <div className="keen-slider__slide surrogate-media-item">
-                  <YoutubeEmbed embedId={"CuSxk_DNau8"} />
+                  <Card sx={{ maxWidth: 345 }}>
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={Logo}
+                      title="Report File"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {media.type}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        <b>Date Created: </b>
+                        {getFullDate(media.createdOn)}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        onClick={() => {
+                          const l = document.createElement("a");
+                          l.href = media.file;
+                          l.target = "_BLANK";
+                          l.click();
+                        }}
+                      >
+                        Download
+                      </Button>
+                    </CardActions>
+                  </Card>
                 </div>
               );
             })}
           </div>
           <br />
-          {loaded && instanceRef.current && surrogateMedia.length > 0 && (
-            <center>
-              <span
-                className="px-30 pointer surrogate-media-arrow"
-                onClick={(e) =>
-                  e.stopPropagation() || instanceRef.current?.prev()
-                }
-                disabled={currentSlide === 0}
-              >
-                <i className="fas fa-long-arrow-alt-left"></i>
-              </span>
+          {loaded &&
+            instanceRef.current &&
+            instanceRef.current.track.details &&
+            surrogateMedia.length > 0 && (
+              <center>
+                <span
+                  className="px-30 pointer surrogate-media-arrow"
+                  onClick={(e) =>
+                    e.stopPropagation() || instanceRef.current?.prev()
+                  }
+                  disabled={currentSlide === 0}
+                >
+                  <i className="fas fa-long-arrow-alt-left"></i>
+                </span>
 
-              <span
-                className="px-30 pointer surrogate-media-arrow"
-                onClick={(e) =>
-                  e.stopPropagation() || instanceRef.current?.next()
-                }
-                disabled={
-                  currentSlide ===
-                  instanceRef.current.track.details.slides.length - 1
-                }
-              >
-                <i className="fas fa-long-arrow-alt-right"></i>
-              </span>
-            </center>
-          )}
+                <span
+                  className="px-30 pointer surrogate-media-arrow"
+                  onClick={(e) =>
+                    e.stopPropagation() || instanceRef.current?.next()
+                  }
+                  disabled={
+                    currentSlide ===
+                    instanceRef.current.track.details.slides.length - 1
+                  }
+                >
+                  <i className="fas fa-long-arrow-alt-right"></i>
+                </span>
+              </center>
+            )}
           <AccountManagement />
         </div>
       </div>
