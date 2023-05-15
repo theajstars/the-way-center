@@ -1,10 +1,25 @@
 import { Endpoints } from "./Endpoints";
 import { FetchData } from "./FetchData";
 
-const GetProfile = async () => {
+const Login = async ({ email, password }) => {
+  return FetchData({
+    method: "POST",
+    route: Endpoints.Login,
+    data: { email, password, account: "Parent" },
+  });
+};
+const RequestOTP = async ({ email }) => {
+  return FetchData({
+    method: "POST",
+    route: Endpoints.RequestOTP,
+    data: { email },
+  });
+};
+const GetProfile = async (token) => {
   return FetchData({
     method: "GET",
     route: Endpoints.Profile,
+    token: token,
   });
 };
 const CreateNewSurrogate = async (surrogate) => {
@@ -125,6 +140,12 @@ const GetReligions = async () => {
     route: Endpoints.GetReligions,
   });
 };
+const GetAgeRanges = async () => {
+  return FetchData({
+    method: "GET",
+    route: Endpoints.GetAgeRange,
+  });
+};
 const GetMetrics = async () => {
   return FetchData({
     method: "GET",
@@ -167,12 +188,16 @@ const GetReports = async ({ page, limit, parentID, surrogateID }) => {
   });
 };
 const PerformRequest = {
+  RequestOTP,
+  Login,
+
   CreateNewSurrogate,
   CreateNewParent,
   GetAllParents,
   GetAllSurrogates,
   GetCountries,
   GetMetrics,
+  GetAgeRanges,
   UpdateSurrogate,
   UpdateParent,
   CreatePairing,

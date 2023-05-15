@@ -10,6 +10,7 @@ const Endpoints = {
   GetTribes: "/misc/tribe",
   GetReligions: "/misc/religion",
   GetMetrics: "/console/metrics",
+  GetAgeRange: "/misc/age-range",
 
   AddTeamMember: "/console/team/add",
 

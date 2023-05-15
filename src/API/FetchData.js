@@ -1,13 +1,17 @@
 import axios from "axios";
 import { Endpoints } from "./Endpoints";
 
+import Cookies from "js-cookie";
+
 const baseURL = "https://api.thewaycenter.net";
 const FetchData = async ({ method, route, data }) => {
+  const token = Cookies.get("token");
+  console.log(token);
   return axios.request({
     method,
     url: `${baseURL}${route}`,
     headers: {
-      Authorization: `Bearer atajiboyesdfo@gmail.com`,
+      Authorization: `Bearer ${token ?? ""}`,
       "Content-Type": "application/json",
     },
     maxBodyLength: Infinity,

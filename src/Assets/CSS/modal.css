@@ -9,6 +9,9 @@
   background-color: var(--purple-secondary);
   border-radius: 30px;
 }
+.profile-modal-container {
+  background-color: white !important;
+}
 .modal-scrollbar {
   padding-right: 10px;
 }
@@ -17,9 +20,17 @@
 }
 .modal-input-row {
   width: 100%;
+  margin: 10px 0;
 }
 .modal-input-full {
   width: 100%;
+}
+.modal-input-half {
+  width: 47%;
+}
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  color: rgba(28, 28, 28, 0.8) !important;
+  -webkit-text-fill-color: rgba(28, 28, 28, 0.8) !important;
 }
 /* Track */
 .modal-scrollbar::-webkit-scrollbar-track {
@@ -36,4 +47,15 @@
 /* Handle on hover */
 .modal-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+@media screen and (max-width: 550px) {
+  div.modal-input-row {
+    flex-direction: column;
+    margin: 0 !important;
+  }
+  .modal-input-half {
+    margin: 10px 0 !important;
+    width: 100% !important;
+  }
 }

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { motion } from "framer-motion";
 import ChatIcon from "../../Assets/IMG/ChatIcon.svg";
 import BellIcon from "../../Assets/IMG/BellIcon.svg";
 import ClaudiaAvatar from "../../Assets/IMG/ClaudiaAvatar.png";
+import { DefaultContext } from "../Dashboard";
+
 export default function TopNav() {
+  const ConsumerContext = useContext(DefaultContext);
   const [isTopNavOpen, setTopNavOpen] = useState(true);
   return (
     <>
@@ -32,10 +35,15 @@ export default function TopNav() {
           }}
           className="top-nav-right flex-row"
         >
-          <img src={ClaudiaAvatar} alt="" className="top-nav-avatar" />
+          <img
+            src={ConsumerContext.Profile.details.primary.image}
+            alt=""
+            className="top-nav-avatar"
+          />
           <div className="top-nav-col flex-column">
             <span className="cinzel top-nav-name">
-              claudia akinsanjo thomas
+              {ConsumerContext.Profile.firstname}&nbsp;
+              {ConsumerContext.Profile.lastname}
             </span>
             <div className="flex-row top-nav-links">
               <span className="top-nav-link">Edit Profile</span>

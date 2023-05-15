@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { validateEmail } from "../../App";
-import { AgeRanges, CountriesList, EducationLevels } from "../../Assets/Data";
+import { CountriesList, EducationLevels } from "../../Assets/Data";
 import { validatePhone } from "../../Lib/Validate";
 import { useToasts } from "react-toast-notifications";
 import AccountManagement from "../AccountManagement";
@@ -27,6 +27,7 @@ export default function Application() {
     religion: "",
   });
 
+  const [AgeRanges, setAgeRanges] = useState([]);
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
@@ -49,6 +50,14 @@ export default function Application() {
     SubmitApplication();
   }, [formErrors]);
 
+  const getAgeRanges = async () => {
+    const r = await PerformRequest.GetAgeRanges();
+    setAgeRanges(r.data.status === "success" ? r.data.data : []);
+  };
+  useEffect(() => {
+    getAgeRanges();
+  }, []);
+
   const SubmitApplication = async () => {
     if (isFormSubmitting) {
       const errors = Object.values(formErrors).filter((e) => e === true);
@@ -58,12 +67,14 @@ export default function Application() {
         addToast("Please fill the form correctly", { appearance: "error" });
       } else {
         const data = {
-          skinColor: applicationFormData.skinColour,
+          tribe: applicationFormData.tribe,
+          religion: applicationFormData.religion,
           ageRange: applicationFormData.ageRange,
           educationLevel: applicationFormData.educationLevel,
-          hairColor: applicationFormData.hairColour,
         };
-        const r = await PerformRequest.RequestSurrogate(data);
+        const r = await PerformRequest.RequestSurrogate(data).catch(() =>
+          setFormSubmitting(false)
+        );
         console.log(r);
         const { message: responseMessage } = r.data;
         if (r.data.status === "failed") {
@@ -107,7 +118,7 @@ export default function Application() {
 
           <br />
           <br />
-          <div className="flex-row space-between modal-input-row form-select-row">
+          {/* <div className="flex-row space-between modal-input-row form-select-row">
             <FormControl
               variant="standard"
               {...defaultFullInputProps}
@@ -137,7 +148,7 @@ export default function Application() {
                 })}
               </Select>
             </FormControl>
-          </div>
+          </div> */}
           <div className="flex-row space-between modal-input-row form-select-row">
             <FormControl
               variant="standard"
@@ -192,8 +203,8 @@ export default function Application() {
               >
                 {AgeRanges.map((age, index) => {
                   return (
-                    <MenuItem value={age.age} key={age.age}>
-                      {age.age}
+                    <MenuItem value={age.range} key={age.range}>
+                      {age.range}
                     </MenuItem>
                   );
                 })}

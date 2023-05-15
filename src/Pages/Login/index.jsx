@@ -5,6 +5,7 @@ import Logo from "../../Assets/IMG/Logo.png";
 import { validateEmail } from "../../App";
 import { useToasts } from "react-toast-notifications";
 import Cookies from "js-cookie";
+import { PerformRequest } from "../../API/PerformRequests";
 
 export default function Login() {
   const { addToast } = useToasts();
@@ -13,28 +14,35 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const LoginUser = () => {
+  const [isFormSubmitting, setFormSubmitting] = useState(false);
+  const LoginUser = async () => {
     const isEmailValid = validateEmail(email);
     if (!isEmailValid) {
       addToast("Please enter a valid email", { appearance: "error" });
     } else {
-      if (password.length < 6) {
-        addToast("Password must be at least 6 characters", {
+      if (password.length !== 6) {
+        addToast("OTP must be 6 characters", {
           appearance: "error",
         });
       } else {
-        navigate("/dashboard");
-        setLoggedIn(true);
-        Cookies.set("token", "some_token_string");
+        const r = await PerformRequest.Login({ email, password });
+        console.log(r);
+        if (r.data.status === "failed") {
+          addToast(r.data.message, { appearance: "error" });
+        } else {
+          navigate("/dashboard");
+          Cookies.set("token", r.data.data.token);
+        }
       }
     }
   };
-  const RequestOTP = () => {
+  const RequestOTP = async () => {
     const isEmailValid = validateEmail(email);
     if (!isEmailValid) {
       addToast("Please enter a valid email", { appearance: "error" });
     } else {
+      const r = await PerformRequest.RequestOTP({ email });
+      console.log(r);
       addToast("OTP has been sent to your email", { appearance: "success" });
     }
   };
@@ -78,6 +86,7 @@ export default function Login() {
               </label>
               <div className="default-input-with-addon-container flex-row">
                 <input
+                  maxLength={6}
                   type={isPasswordVisible ? "text" : "password"}
                   placeholder="Password"
                   value={password}
@@ -107,7 +116,11 @@ export default function Login() {
               </Link>
             </div>
             <div className="flex-row space-between">
-              <button type={RequestOTP} className="auth-btn auth-btn-half">
+              <button
+                type="button"
+                onClick={RequestOTP}
+                className="auth-btn auth-btn-half"
+              >
                 Request OTP
               </button>
               <button type="submit" className="auth-btn auth-btn-half">

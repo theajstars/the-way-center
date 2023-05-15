@@ -9,6 +9,8 @@ import SideNav from "../SideNav";
 import TopNav from "../TopNav";
 import { PerformRequest } from "../../API/PerformRequests";
 import { ChakraProvider, useToast } from "@chakra-ui/react";
+import Cookies from "js-cookie";
+import MegaLoader from "../Megaloader";
 
 const initialContext = {
   CountriesList: [],
@@ -23,11 +25,35 @@ const initialContext = {
     phone: "",
     accountCode: "",
     accountConnected: "",
-  },
-  Metrics: {
-    parent: undefined,
-    surrogate: undefined,
-    pairing: undefined,
+    details: {
+      primary: {
+        lastname: "",
+        firstname: "",
+        email: "",
+        phone: "",
+        image: "",
+      },
+      spouse: {
+        lastname: "",
+        firstname: "",
+        email: "",
+        phone: "",
+        image: "",
+      },
+      pair: {
+        count: null,
+        details: {
+          status: "",
+          surrogate: {
+            lastname: "",
+            firstname: "",
+            email: "",
+            phone: "",
+            image: "",
+          },
+        },
+      },
+    },
   },
 
   refetchData: () => {},
@@ -50,17 +76,14 @@ function ShowToast({ isLoggedIn, firstname, lastname }) {
   }, []);
 }
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
 
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState(initialContext.Profile);
 
   const [religions, setReligions] = useState([]);
   const [tribes, setTribes] = useState([]);
 
-  const [metrics, setMetrics] = useState({
-    ...initialContext.Metrics,
-    set: false,
-  });
   const getCountries = async () => {
     const r = await PerformRequest.GetCountries();
     if (r.data.response_code === 200) {
@@ -80,61 +103,66 @@ export default function Dashboard() {
       setReligions(r.data.data);
     }
   };
-  const getMetrics = async () => {
-    const r = await PerformRequest.GetMetrics();
-    if (r.data.response_code === 200) {
-      setMetrics({ ...r.data.data, set: true });
-    }
-  };
   const getProfile = async () => {
+    const token = Cookies.get("token");
+    if (!token) {
+      navigate("/login");
+    }
     const r = await PerformRequest.GetProfile();
     console.log(r);
+    console.log(token);
     setProfile(r.data.data ?? initialContext.Profile);
+    if (r.data.status === "failed") {
+      Cookies.remove("token");
+      navigate("/login");
+    }
   };
 
   const FetchAllData = async () => {
+    await getProfile();
     getCountries();
-
-    getMetrics();
 
     getTribes();
     getReligions();
-    getProfile();
   };
   useEffect(() => {
     FetchAllData();
   }, []);
   return (
     <>
-      <DefaultContext.Provider
-        value={{
-          ...initialContext,
-          CountriesList: countries,
+      {profile.token && profile.token.length > 0 ? (
+        <DefaultContext.Provider
+          value={{
+            ...initialContext,
+            CountriesList: countries,
+            refetchData: FetchAllData,
+            Tribes: tribes,
+            Religions: religions,
+            Profile: profile,
+          }}
+        >
+          <ChakraProvider>
+            <ShowToast
+              firstname={profile.firstname ?? ""}
+              lastname={profile.lastname ?? ""}
+            />
+          </ChakraProvider>
+          <TopNav />
+          <SideNav />
+          <Container maxWidth="xl">
+            <div className="dashboard-component">
+              <Routes>
+                <Route path="/" index element={<Home />} />
+                <Route path="/application" index element={<Application />} />
+              </Routes>
 
-          Metrics: metrics,
-
-          refetchData: FetchAllData,
-          Tribes: tribes,
-          Religions: religions,
-          Profile: profile,
-        }}
-      >
-        <ChakraProvider>
-          <ShowToast firstname="Claudia" lastname="Thomas" />
-        </ChakraProvider>
-        <TopNav />
-        <SideNav />
-        <Container maxWidth="xl">
-          <div className="dashboard-component">
-            <Routes>
-              <Route path="/" index element={<Home />} />
-              <Route path="/application" index element={<Application />} />
-            </Routes>
-
-            <Footer />
-          </div>
-        </Container>
-      </DefaultContext.Provider>
+              <Footer />
+            </div>
+          </Container>
+        </DefaultContext.Provider>
+      ) : (
+        <MegaLoader />
+      )}
     </>
   );
 }

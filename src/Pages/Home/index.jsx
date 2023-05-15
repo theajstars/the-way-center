@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import { Typography, Modal } from "@mui/material";
 import { motion } from "framer-motion";
@@ -8,11 +8,16 @@ import "keen-slider/keen-slider.min.css";
 import { SurrogateRecords, SurrogateReports } from "../../Assets/Data";
 
 import AishaAvatar from "../../Assets/IMG/AishaAvatar.svg";
+import DefaultAvatar from "../../Assets/IMG/DefaultAvatar.jpg";
 import PurpleFlower from "../../Assets/IMG/PurpleFlower.svg";
 import YoutubeEmbed from "../YoutubeEmbed";
 import AccountManagement from "../AccountManagement";
 import Footer from "../Footer";
+import { DefaultContext } from "../Dashboard";
+import SurrogateProfileView from "../SurrogateProfileView";
+
 export default function Home() {
+  const ConsumerContext = useContext(DefaultContext);
   const ModifySurrogatesRef = useRef();
   const [SurrogateRecordsToDisplay, setSurrogateRecordsToDisplay] = useState(
     SurrogateRecords.slice(0, 4)
@@ -54,23 +59,50 @@ export default function Home() {
       return 2;
     }
   };
+
+  const getSurrogateDetails = () => {
+    if (ConsumerContext.Profile.details.pair) {
+      if (ConsumerContext.Profile.details.pair.details.surrogate) {
+        return ConsumerContext.Profile.details.pair.details.surrogate;
+      }
+    }
+  };
+
+  const [showSurrogateProfile, setShowSurrogateProfile] = useState(false);
   return (
     <div className="home-page">
       <Typography className="poppins fw-500" variant="h5">
         PARENT DASHBOARD
       </Typography>
       <br />
+      {showSurrogateProfile && (
+        <SurrogateProfileView
+          showSurrogateProfile={(value) => {
+            setShowSurrogateProfile(value);
+          }}
+        />
+      )}
       <div className="home-container flex-row">
         <div className="home-container-left flex-column">
-          <img src={AishaAvatar} alt="" className="home-avatar" />
+          <img
+            src={getSurrogateDetails().image ?? DefaultAvatar}
+            alt=""
+            className="home-avatar pointer"
+            onClick={() => {
+              setShowSurrogateProfile(true);
+            }}
+          />
           <span className="home-username fw-500 cinzel px-23">
-            Aisha Immanuel
+            {getSurrogateDetails().firstname ?? "No Surrogate"} &nbsp;
+            {getSurrogateDetails().lastname ?? "Assigned"}
           </span>
           <span className="home-usertag poppins px-16 fw-500">
             My Surrogate
           </span>
+          <br />
           <hr className="home-divider" />
-          <motion.div
+          <br />
+          {/* <motion.div
             initial={false}
             animate={{
               maxHeight:
@@ -109,8 +141,8 @@ export default function Home() {
                 </div>
               );
             })}
-          </motion.div>
-          <span
+          </motion.div> */}
+          {/* <span
             className="more-surrogates black-default-text px-20 flex-row"
             onClick={ModifySurrogateRecordsToDisplay}
             ref={ModifySurrogatesRef}
@@ -126,7 +158,7 @@ export default function Home() {
             >
               <i className={`far fa-long-arrow-alt-up`}></i>
             </motion.span>
-          </span>
+          </span> */}
         </div>
 
         <div className="home-container-right flex-column">
