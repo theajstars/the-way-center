@@ -31,6 +31,7 @@ const Endpoints = {
   CreateReport: "/report/create",
   SendReportNotification: "/report/send-notification",
   GetReports: "/report/details",
+  GetReportFile: "/report/files/details",
 
   GetMessageList: "/message/list",
   SendMessage: "/message/send",

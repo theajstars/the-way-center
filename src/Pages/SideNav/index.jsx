@@ -109,6 +109,7 @@ export default function SideNav() {
                 }`}
                 onClick={() => {
                   setCurrentActiveLink("Profile");
+                  navigate("/dashboard/profile");
                 }}
               >
                 My Profile

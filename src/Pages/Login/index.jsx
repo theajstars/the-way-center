@@ -90,13 +90,13 @@ export default function Login() {
             </div>
             <div className="default-input-container flex-column">
               <label htmlFor="password" className="default-input-label">
-                Password
+                OTP
               </label>
               <div className="default-input-with-addon-container flex-row">
                 <input
                   maxLength={6}
                   type={isPasswordVisible ? "text" : "password"}
-                  placeholder="Password"
+                  placeholder="OTP"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   id="password"

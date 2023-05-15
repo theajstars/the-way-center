@@ -187,6 +187,12 @@ const GetReports = async ({ page, limit, parentID, surrogateID }) => {
     }&parentID=${parentID ?? ""}&surrogateID=${surrogateID ?? ""}`,
   });
 };
+const GetReportFile = async ({ reportID }) => {
+  return FetchData({
+    method: "GET",
+    route: `${Endpoints.GetReportFile}?reportID=${reportID ?? ""}`,
+  });
+};
 const PerformRequest = {
   RequestOTP,
   Login,
@@ -203,6 +209,7 @@ const PerformRequest = {
   CreatePairing,
   CreateReport,
   GetReports,
+  GetReportFile,
   AddReportFile,
   SendReportNotification,
   CreateMessageReference,

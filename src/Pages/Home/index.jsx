@@ -51,6 +51,7 @@ export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [surrogateReports, setSurrogateReports] = useState([]);
+  const [surrogateMedia, setSurrogateMedia] = useState([]);
   const getReportCategory = (category) => {
     const f = ReportCategories.filter((c) => c.value === category);
     if (f.length === 0) {
@@ -64,6 +65,15 @@ export default function Home() {
     const r = await PerformRequest.GetReports({});
     console.log(r);
     setSurrogateReports(r.data.status === "success" ? r.data.data : []);
+    let reports = r.data.data;
+    if (reports) {
+      reports.map(async (report) => {
+        const getMedia = await PerformRequest.GetReportFile({
+          reportID: report.id,
+        });
+        console.log(getMedia);
+      });
+    }
   };
   useEffect(() => {
     fetchSurrogateReports();
@@ -188,7 +198,6 @@ export default function Home() {
           <div className="flex-row space-between align-center">
             <span className="poppins fw-500 px-18 surrogate-reports-head">
               Your Surrogate Reports
-              {/* Your Surrogate Reports from TWC */}
             </span>
             <Link
               to="/dashboard/reports"
@@ -342,21 +351,16 @@ export default function Home() {
           </div>
           <span className="poppins fw-500 px-18">Your Surrogate Media</span>
           <div ref={sliderRef} className="keen-slider">
-            <div className="keen-slider__slide surrogate-media-item">
-              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
-            </div>
-            <div className="keen-slider__slide surrogate-media-item">
-              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
-            </div>
-            <div className="keen-slider__slide surrogate-media-item">
-              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
-            </div>
-            <div className="keen-slider__slide surrogate-media-item">
-              <YoutubeEmbed embedId={"CuSxk_DNau8"} />
-            </div>
+            {surrogateMedia.map((media) => {
+              return (
+                <div className="keen-slider__slide surrogate-media-item">
+                  <YoutubeEmbed embedId={"CuSxk_DNau8"} />
+                </div>
+              );
+            })}
           </div>
           <br />
-          {loaded && instanceRef.current && (
+          {loaded && instanceRef.current && surrogateMedia.length > 0 && (
             <center>
               <span
                 className="px-30 pointer surrogate-media-arrow"

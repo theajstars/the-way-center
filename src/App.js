@@ -17,6 +17,7 @@ import Home from "./Pages/Home";
 import LandingPage from "./Pages/LandingPage";
 import Application from "./Pages/Application";
 import Reports from "./Pages/Reports";
+import Profile from "./Pages/Profile";
 function validateEmail(email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -89,6 +90,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/dashboard/application" element={<Application />} />
           <Route path="/dashboard/reports" element={<Reports />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
         </Route>
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>

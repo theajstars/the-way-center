@@ -12,6 +12,7 @@ import { ChakraProvider, useToast } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import MegaLoader from "../Megaloader";
 import Reports from "../Reports";
+import Profile from "../Profile";
 
 const initialContext = {
   CountriesList: [],
@@ -156,6 +157,7 @@ export default function Dashboard() {
                 <Route path="/" index element={<Home />} />
                 <Route path="/application" index element={<Application />} />
                 <Route path="/reports" index element={<Reports />} />
+                <Route path="/profile" index element={<Profile />} />
               </Routes>
 
               <Footer />
