@@ -176,7 +176,7 @@ const SendMessage = async (message) => {
 const GetCurrentMessages = async (reference) => {
   return FetchData({
     method: "GET",
-    route: `${Endpoints.GetCurrentMessages}?reference=${reference}`,
+    route: `${Endpoints.GetCurrentMessages}?reference=${reference}&orderBy=old`,
   });
 };
 const SendMessageFile = async ({ reference, media }) => {

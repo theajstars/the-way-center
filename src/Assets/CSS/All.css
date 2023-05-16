@@ -49,7 +49,7 @@ body {
   align-items: center;
 }
 .align-end {
-  align-items: flex-start;
+  align-items: flex-end;
 }
 .pointer {
   cursor: pointer;

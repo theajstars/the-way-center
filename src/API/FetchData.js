@@ -19,11 +19,14 @@ const FetchData = async ({ method, route, data }) => {
   });
 };
 const UploadFile = async ({ formData }) => {
+  const token = Cookies.get("token");
+
   return axios.request({
     method: "POST",
     url: `${baseURL}${Endpoints.UploadFile}`,
     headers: {
-      Authorization: `Bearer atajiboyeo@gmail.com`,
+      Authorization: `Bearer ${token ?? ""}`,
+
       "Content-Type": "multipart/form-data",
     },
     maxBodyLength: Infinity,

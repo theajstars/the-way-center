@@ -76,6 +76,7 @@ export default function Messages() {
       setMessageSending(false);
       addToast("An error occured!", { appearance: "error" });
     });
+    console.log(uploadMessageFile);
     if (uploadMessageFile.data.status === "success") {
       const { fileUrl } = uploadMessageFile.data;
       const r = await PerformRequest.SendMessageFile({
@@ -186,14 +187,14 @@ export default function Messages() {
                         return (
                           <>
                             {message.sender.fullname === "The Way Center" ? (
-                              <SentMessage
+                              <ReceivedMessage
                                 time={message.createdOn}
                                 message={message.post}
                                 isMedia={message.media.length > 0}
                                 media={message.media}
                               />
                             ) : (
-                              <ReceivedMessage
+                              <SentMessage
                                 time={message.createdOn}
                                 message={message.post}
                                 isMedia={message.media.length > 0}
