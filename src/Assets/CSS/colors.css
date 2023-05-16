@@ -10,13 +10,17 @@
 
   --purple-default: #40189d;
   --purple-primary: #f3eaff;
+  --purple-another: #6e00ff;
+
   --purple-secondary: #cecce4;
 
   --black-default: #3d3d3d;
 
   --red-default: #9d1818;
 }
-
+.white-text {
+  color: white;
+}
 .gray-text {
   color: var(--gray-default);
 }

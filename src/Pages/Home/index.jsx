@@ -10,6 +10,7 @@ import {
   CardMedia,
   CardContent,
   CardActions,
+  Alert,
 } from "@mui/material";
 
 import { useToasts } from "react-toast-notifications";
@@ -233,6 +234,70 @@ export default function Home() {
               View More
             </Link>
           </div>
+          <div className="flex-row align-center justify-center width-100">
+            {surrogateReports.length === 0 && (
+              <>
+                <br />
+                <Alert severity="info">No reports found!</Alert>
+              </>
+            )}
+          </div>
+          <div className="surrogate-reports flex-row space-between">
+            {surrogateReports.map((report, index) => {
+              if (index === 0 || index === 1) {
+                return (
+                  <div className="surrogate-report flex-column">
+                    <div className="flex-row surrogate-report-top space-between">
+                      <div className="flex-column">
+                        <span className="cinzel px-14 gray-secondary-text surrogate-report-type">
+                          {report.parent.firstname} {report.parent.lastname}
+                        </span>
+                        <span className="cinzel px-16 surrogate-report-title">
+                          {getReportCategory(report.reportCategory)} Report
+                        </span>
+                      </div>
+                      <img
+                        src={report.parent.image}
+                        alt=""
+                        className="surrogate-report-avatar"
+                      />
+                    </div>
+                    <span className="surrogate-report-body poppins px-14 fw-300">
+                      {report.details.length > 120
+                        ? `${report.details.substring(0, 120)}...`
+                        : report.details}
+                    </span>
+                    <div className="flex-row space-between">
+                      <span className="flex-column">
+                        <span
+                          className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-satisfactory`}
+                          // className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
+                        >
+                          Satisfactory
+                          {/* {report.verdict} */}
+                        </span>
+                        <small className="px-10 fw-500 poppins">
+                          Doctor’s Overall Remark
+                        </small>
+                      </span>
+
+                      <span
+                        className="px-14 poppins fw-500 pointer"
+                        onClick={() => {
+                          setSurrogateReportModalDetails({
+                            state: true,
+                            content: report,
+                          });
+                        }}
+                      >
+                        <u>View Full Report</u>
+                      </span>
+                    </div>
+                  </div>
+                );
+              }
+            })}
+          </div>
           <Modal
             open={surrogateReportModalDetails.state}
             onClose={(e, reason) => {
@@ -320,63 +385,15 @@ export default function Home() {
               </div>
             </div>
           </Modal>
-          <div className="surrogate-reports flex-row space-between">
-            {surrogateReports.map((report, index) => {
-              if (index === 0 || index === 1) {
-                return (
-                  <div className="surrogate-report flex-column">
-                    <div className="flex-row surrogate-report-top space-between">
-                      <div className="flex-column">
-                        <span className="cinzel px-14 gray-secondary-text surrogate-report-type">
-                          {report.parent.firstname} {report.parent.lastname}
-                        </span>
-                        <span className="cinzel px-16 surrogate-report-title">
-                          {getReportCategory(report.reportCategory)} Report
-                        </span>
-                      </div>
-                      <img
-                        src={report.parent.image}
-                        alt=""
-                        className="surrogate-report-avatar"
-                      />
-                    </div>
-                    <span className="surrogate-report-body poppins px-14 fw-300">
-                      {report.details.length > 120
-                        ? `${report.details.substring(0, 120)}...`
-                        : report.details}
-                    </span>
-                    <div className="flex-row space-between">
-                      <span className="flex-column">
-                        <span
-                          className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-satisfactory`}
-                          // className={`surrogate-report-verdict flex-row poppins fw-500 px-13 surrogate-report-${report.verdict.toLowerCase()}`}
-                        >
-                          Satisfactory
-                          {/* {report.verdict} */}
-                        </span>
-                        <small className="px-10 fw-500 poppins">
-                          Doctor’s Overall Remark
-                        </small>
-                      </span>
-
-                      <span
-                        className="px-14 poppins fw-500 pointer"
-                        onClick={() => {
-                          setSurrogateReportModalDetails({
-                            state: true,
-                            content: report,
-                          });
-                        }}
-                      >
-                        <u>View Full Report</u>
-                      </span>
-                    </div>
-                  </div>
-                );
-              }
-            })}
-          </div>
           <span className="poppins fw-500 px-18">Your Surrogate Media</span>
+          <div className="flex-row align-center justify-center width-100">
+            {surrogateMedia.length === 0 && (
+              <>
+                <br />
+                <Alert severity="info">No media found!</Alert>
+              </>
+            )}
+          </div>
           <div ref={sliderRef} className="keen-slider">
             {surrogateMedia.map((media) => {
               return (

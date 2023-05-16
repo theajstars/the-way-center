@@ -48,6 +48,9 @@ body {
 .align-center {
   align-items: center;
 }
+.align-end {
+  align-items: flex-start;
+}
 .pointer {
   cursor: pointer;
 }

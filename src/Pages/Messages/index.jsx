@@ -6,17 +6,13 @@ import {
   Button,
   CardActions,
 } from "@mui/material";
-import {
-  InboxMessages,
-  ParentMessages,
-  SampleMessages,
-} from "../../Assets/Data";
-import { motion } from "framer-motion";
+import { useToasts } from "react-toast-notifications";
 import { PerformRequest } from "../../API/PerformRequests";
 import { DefaultContext } from "../Dashboard";
 import { getFullDate } from "../../App";
-import { useToasts } from "react-toast-notifications";
 import { UploadFile } from "../../API/FetchData";
+
+import Logo from "../../Assets/IMG/Logo.png";
 
 export default function Messages() {
   const ContextConsumer = useContext(DefaultContext);
@@ -27,7 +23,6 @@ export default function Messages() {
   };
 
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
 
   const [currentParent, setCurrentParent] = useState(undefined);
@@ -40,6 +35,27 @@ export default function Messages() {
 
   const getParentMessages = async () => {
     setMessagesLoading(true);
+    const r = await PerformRequest.GetMessageList().catch(() => {
+      setMessagesLoading(false);
+      addToast("An error occured", { appearance: "error" });
+    });
+    if (r.data.status === "success" && r.data.data) {
+      const ref = r.data.data[0].reference;
+      console.log(ref);
+      setCurrentReference(ref);
+      const m = await PerformRequest.GetCurrentMessages(ref).catch(() => {
+        setMessagesLoading(false);
+        addToast("An error occured", { appearance: "error" });
+      });
+      console.log(m);
+      setMessagesLoading(false);
+
+      if (m.data.status === "success" && m.data.data) {
+        setCurrentMessages(m.data.data);
+      }
+    } else {
+      addToast("An error occured", { appearance: "error" });
+    }
   };
 
   useEffect(() => {
@@ -137,21 +153,14 @@ export default function Messages() {
         </Typography>
         <br />
         <br />
-        <span
-          className="toggle-messages px-18 pointer"
-          onClick={() => {
-            setSidebarOpen(!isSidebarOpen);
-          }}
-        >
-          <i className="far fa-users" />
-        </span>
-        <div className="messages-page-container flex-row">
+
+        <div className="messages-page-container flex-row align-center justify-center">
           <>
             <div className="chat-section large-chat-section flex-column">
               <div className="chat-section-top width-100 flex-column">
                 <div className="flex-row chat-header align-center space-between">
                   <div className="chat-header-left flex-row align-center">
-                    <img src={""} alt="" className="chat-section-avatar" />
+                    <img src={Logo} alt="" className="chat-section-avatar" />
                     <div className="flex-column">
                       <span className="poppins px-16 fw-500">
                         The Way Center
