@@ -114,20 +114,12 @@ export default function Login() {
                 </span>
               </div>
             </div>
-            <div
-              style={{
-                textAlign: "right",
-              }}
-            >
-              <Link to="/forgot-password" className="mulish gray-text">
-                Forgot Password?
-              </Link>
-            </div>
+
             <div className="flex-row space-between">
               <button
                 type="button"
                 onClick={RequestOTP}
-                className="auth-btn auth-btn-half"
+                className="auth-btn auth-btn-half auth-btn-request-otp"
               >
                 Request OTP
               </button>
