@@ -78,7 +78,9 @@ export default function Home() {
     // const surrogateID = getSurrogateDetails()
     const r = await PerformRequest.GetReports({});
     console.log(r);
-    setSurrogateReports(r.data.status === "success" ? r.data.data : []);
+    setSurrogateReports(
+      r.data.status === "success" && r.data.data ? r.data.data : []
+    );
     let reports = r.data.data;
     if (reports) {
       reports.map(async (report) => {
@@ -138,9 +140,16 @@ export default function Home() {
           <img
             src={getSurrogateDetails().image ?? DefaultAvatar}
             alt=""
-            className="home-avatar pointer"
+            className="home-avatar"
+            style={{
+              cursor: getSurrogateDetails().firstname
+                ? "pointer"
+                : "not-allowed",
+            }}
             onClick={() => {
-              setShowSurrogateProfile(true);
+              getSurrogateDetails().firstname
+                ? setShowSurrogateProfile(true)
+                : console.log("Balls");
             }}
           />
           <span className="home-username fw-500 cinzel px-23">

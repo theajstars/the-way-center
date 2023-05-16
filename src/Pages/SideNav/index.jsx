@@ -91,15 +91,16 @@ export default function SideNav() {
               </span>
               <span
                 className={`side-nav-link cinzel ${
-                  currentActiveLink === "Message"
+                  currentActiveLink === "Messages"
                     ? "side-nav-link-active"
                     : "side-nav-link-inactive"
                 }`}
                 onClick={() => {
-                  setCurrentActiveLink("Message");
+                  setCurrentActiveLink("Messages");
+                  navigate("/dashboard/messages");
                 }}
               >
-                Message(s)
+                Messages
               </span>
               <span
                 className={`side-nav-link cinzel ${

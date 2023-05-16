@@ -179,6 +179,14 @@ const GetCurrentMessages = async (reference) => {
     route: `${Endpoints.GetCurrentMessages}?reference=${reference}`,
   });
 };
+const SendMessageFile = async ({ reference, media }) => {
+  return FetchData({
+    method: "POST",
+    route: Endpoints.SendMessage,
+    data: { media, reference },
+  });
+};
+
 const GetReports = async ({ page, limit, parentID, surrogateID }) => {
   return FetchData({
     method: "GET",
@@ -214,6 +222,7 @@ const PerformRequest = {
   SendReportNotification,
   CreateMessageReference,
   SendMessage,
+  SendMessageFile,
   GetMessageList,
   GetCurrentMessages,
   GetRelationships,

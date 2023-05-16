@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import MegaLoader from "../Megaloader";
 import Reports from "../Reports";
 import Profile from "../Profile";
+import Messages from "../Messages";
 
 const initialContext = {
   CountriesList: [],
@@ -158,6 +159,7 @@ export default function Dashboard() {
                 <Route path="/application" index element={<Application />} />
                 <Route path="/reports" index element={<Reports />} />
                 <Route path="/profile" index element={<Profile />} />
+                <Route path="/messages" index element={<Messages />} />
               </Routes>
 
               <Footer />

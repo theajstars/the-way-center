@@ -14,6 +14,7 @@
 @import url("./dashboard/application.css");
 @import url("./dashboard/custom-select.css");
 @import url("./dashboard.css");
+@import url("./dashboard/messages.css");
 @import url("./megaloader.css");
 
 @import url("./small/SmallAuth.css");
