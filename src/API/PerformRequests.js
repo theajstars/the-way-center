@@ -201,6 +201,13 @@ const GetReportFile = async ({ reportID }) => {
     route: `${Endpoints.GetReportFile}?reportID=${reportID ?? ""}`,
   });
 };
+
+const GetNotificationCount = async () => {
+  return FetchData({
+    method: "GET",
+    route: Endpoints.GetNotificationCount,
+  });
+};
 const PerformRequest = {
   RequestOTP,
   Login,
@@ -232,6 +239,7 @@ const PerformRequest = {
   GetProfile,
 
   RequestSurrogate,
+  GetNotificationCount,
 };
 
 export { PerformRequest };

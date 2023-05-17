@@ -17,6 +17,10 @@ import Messages from "../Messages";
 
 const initialContext = {
   CountriesList: [],
+  Notifications: {
+    unread: 0,
+    requests: 0,
+  },
   Tribes: [],
   Religions: [],
   Profile: {
@@ -83,7 +87,9 @@ export default function Dashboard() {
   const [countries, setCountries] = useState([]);
 
   const [profile, setProfile] = useState(initialContext.Profile);
-
+  const [notifications, setNotifications] = useState(
+    initialContext.Notifications
+  );
   const [religions, setReligions] = useState([]);
   const [tribes, setTribes] = useState([]);
 
@@ -120,13 +126,19 @@ export default function Dashboard() {
       navigate("/login");
     }
   };
-
+  const getNotifications = async () => {
+    const r = await PerformRequest.GetNotificationCount();
+    if (r.data.response_code === 200) {
+      setNotifications(r.data.data ?? initialContext.Notifications);
+    }
+  };
   const FetchAllData = async () => {
     await getProfile();
     getCountries();
 
     getTribes();
     getReligions();
+    getNotifications();
   };
   useEffect(() => {
     FetchAllData();
@@ -142,6 +154,7 @@ export default function Dashboard() {
             Tribes: tribes,
             Religions: religions,
             Profile: profile,
+            Notifications: notifications,
           }}
         >
           <ChakraProvider>

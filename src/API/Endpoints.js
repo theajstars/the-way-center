@@ -39,6 +39,7 @@ const Endpoints = {
   GetCurrentMessages: "/message/logs",
 
   RequestSurrogate: "/pair/request",
+  GetNotificationCount: "/notification/parent",
 };
 
 export { Endpoints };
