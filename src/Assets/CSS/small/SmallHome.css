@@ -6,6 +6,15 @@
     width: 100%;
   }
 }
+@media screen and (max-width: 900px) {
+  div.surrogate-media-row {
+    flex-direction: column;
+  }
+  div.surrogate-media-item {
+    width: 100%;
+    margin: 20px 0;
+  }
+}
 @media screen and (max-width: 850px) {
   div.surrogate-reports {
     flex-direction: column;
@@ -13,6 +22,9 @@
   }
   div.surrogate-report {
     margin: 10px 0 !important;
+  }
+  div.home-surrogate-report {
+    width: 100%;
   }
 }
 @media screen and (max-width: 550px) {

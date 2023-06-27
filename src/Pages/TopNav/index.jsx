@@ -1,5 +1,7 @@
 import { useState, useContext } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { motion } from "framer-motion";
 import ChatIcon from "../../Assets/IMG/ChatIcon.svg";
 import BellIcon from "../../Assets/IMG/BellIcon.svg";
@@ -7,6 +9,7 @@ import ClaudiaAvatar from "../../Assets/IMG/ClaudiaAvatar.png";
 import { DefaultContext } from "../Dashboard";
 
 export default function TopNav() {
+  const navigate = useNavigate();
   const ConsumerContext = useContext(DefaultContext);
   const [isTopNavOpen, setTopNavOpen] = useState(true);
   return (
@@ -21,7 +24,12 @@ export default function TopNav() {
       </span>
       <div className="top-nav-container flex-row">
         <span className="top-nav-button flex-row">
-          <img src={ChatIcon} alt="" className="top-nav-icon" />
+          <img
+            onClick={() => navigate("/dashboard/messages")}
+            src={ChatIcon}
+            alt=""
+            className="top-nav-icon pointer"
+          />
           <span className="top-nav-count flex-row">
             {ConsumerContext.Notifications.unread}
           </span>
@@ -38,7 +46,7 @@ export default function TopNav() {
           className="top-nav-right flex-row"
         >
           <img
-            src={ConsumerContext.Profile.details.primary.image}
+            src={ConsumerContext.Profile.details.primary.image ?? ""}
             alt=""
             className="top-nav-avatar"
           />

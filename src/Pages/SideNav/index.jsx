@@ -75,6 +75,19 @@ export default function SideNav() {
               >
                 Application
               </span>
+              <span
+                className={`side-nav-link cinzel ${
+                  currentActiveLink === "Media"
+                    ? "side-nav-link-active"
+                    : "side-nav-link-inactive"
+                }`}
+                onClick={() => {
+                  navigate("/dashboard/media");
+                  setCurrentActiveLink("Media");
+                }}
+              >
+                Media
+              </span>
 
               <span
                 className={`side-nav-link cinzel ${

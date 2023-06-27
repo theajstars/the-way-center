@@ -85,6 +85,9 @@
 .surrogate-reports {
   margin: 20px 0;
 }
+.home-surrogate-report {
+  width: 47%;
+}
 .surrogate-report {
   background: #ffffff;
   box-shadow: 0px 12px 23px rgba(0, 0, 0, 0.1);
@@ -134,9 +137,12 @@
   background: #ffcaca;
   color: var(--red-default);
 }
-
+.surrogate-media-row {
+  justify-content: space-between;
+}
 .surrogate-media-item {
   object-fit: contain;
+  width: 400px;
 }
 .surrogate-media-arrow {
   margin: 0px 20px;

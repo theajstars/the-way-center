@@ -14,6 +14,7 @@ import MegaLoader from "../Megaloader";
 import Reports from "../Reports";
 import Profile from "../Profile";
 import Messages from "../Messages";
+import Media from "../Media";
 
 const initialContext = {
   CountriesList: [],
@@ -124,6 +125,11 @@ export default function Dashboard() {
     if (r.data.status === "failed") {
       Cookies.remove("token");
       navigate("/login");
+    } else {
+      if (r.data.data.accountConnected === "Console") {
+        Cookies.remove("token");
+        navigate("/login");
+      }
     }
   };
   const getNotifications = async () => {
@@ -173,6 +179,7 @@ export default function Dashboard() {
                 <Route path="/reports" index element={<Reports />} />
                 <Route path="/profile" index element={<Profile />} />
                 <Route path="/messages" index element={<Messages />} />
+                <Route path="/media" index element={<Media />} />
               </Routes>
 
               <Footer />

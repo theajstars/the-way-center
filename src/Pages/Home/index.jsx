@@ -45,6 +45,8 @@ export default function Home() {
       if (ConsumerContext.Profile.details.pair.details.surrogate) {
         return ConsumerContext.Profile.details.pair.details.surrogate;
       }
+    } else {
+      return DefaultAvatar;
     }
   };
   const ModifySurrogatesRef = useRef();
@@ -84,27 +86,31 @@ export default function Home() {
     );
     let reports = r.data.data;
     if (reports) {
-      reports.map(async (report) => {
+      reports.map(async (report, index) => {
         const getMedia = await PerformRequest.GetReportFile({
           reportID: report.id,
         });
         console.log(getMedia);
         getMedia.data.data && getMedia.data.data.length !== 0
-          ? setSurrogateMedia([...surrogateMedia, getMedia.data.data[0]])
-          : addToast("Unable to fetch your media", { appearance: "error" });
+          ? // ? setSurrogateMedia([...surrogateMedia, getMedia.data.data[0]])
+            setSurrogateMedia((surrogateMedia) => [
+              ...surrogateMedia,
+              getMedia.data.data[0],
+            ])
+          : addToast("Records fetching", { appearance: "info" });
       });
     }
   };
   useEffect(() => {
     fetchSurrogateReports();
+    removeAllToasts();
   }, []);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
-    loop: true,
     slides: {
-      perView: screenWidth > 1400 ? 3 : screenWidth > 900 ? 2 : 1,
+      perView: window.innerWidth > 1400 ? 3 : window.innerWidth > 700 ? 2 : 1,
       spacing: 15,
     },
     slideChanged(slider) {
@@ -114,13 +120,6 @@ export default function Home() {
       setLoaded(true);
     },
   });
-  const getSurrogateOverviewCount = () => {
-    if (screenWidth > 1450) {
-      return 3;
-    } else {
-      return 2;
-    }
-  };
 
   const [showSurrogateProfile, setShowSurrogateProfile] = useState(false);
   return (
@@ -163,63 +162,6 @@ export default function Home() {
           <br />
           <hr className="home-divider" />
           <br />
-          {/* <motion.div
-            initial={false}
-            animate={{
-              maxHeight:
-                SurrogateRecords.length === SurrogateRecordsToDisplay.length
-                  ? "100%"
-                  : "fit-content",
-            }}
-            className="surrogate-record-overview flex-column"
-          >
-            <span className="fw-500 black-default-text poppins px-19">
-              Surrogate Record
-            </span>
-            {SurrogateRecordsToDisplay.map((record, index) => {
-              return (
-                <div
-                  className="flex-row surrogate-record-overview-item"
-                  key={index}
-                >
-                  <div className="flex-row surrogate-record-overview-icon">
-                    <img
-                      src={PurpleFlower}
-                      className="surrogate-record-overview-image"
-                      alt=""
-                    />
-                  </div>
-                  &nbsp; &nbsp; &nbsp;
-                  <span className="surrogate-record-overview-text flex-column">
-                    <span className="fw-500 poppins px-15 ">
-                      {record.title}{" "}
-                      <span className="fw-600">{record.important}</span>
-                    </span>
-                    <span className="poppins fw-400 gray-primary-text px-14">
-                      {record.time} ago
-                    </span>
-                  </span>
-                </div>
-              );
-            })}
-          </motion.div> */}
-          {/* <span
-            className="more-surrogates black-default-text px-20 flex-row"
-            onClick={ModifySurrogateRecordsToDisplay}
-            ref={ModifySurrogatesRef}
-          >
-            <motion.span
-              initial={false}
-              animate={{
-                rotate:
-                  SurrogateRecords.length === SurrogateRecordsToDisplay.length
-                    ? "0deg"
-                    : "180deg",
-              }}
-            >
-              <i className={`far fa-long-arrow-alt-up`}></i>
-            </motion.span>
-          </span> */}
         </div>
 
         <div className="home-container-right flex-column">
@@ -246,7 +188,7 @@ export default function Home() {
             {surrogateReports.map((report, index) => {
               if (index === 0 || index === 1) {
                 return (
-                  <div className="surrogate-report flex-column">
+                  <div className="surrogate-report home-surrogate-report flex-column">
                     <div className="flex-row surrogate-report-top space-between">
                       <div className="flex-column">
                         <span className="cinzel px-14 gray-secondary-text surrogate-report-type">
@@ -385,7 +327,11 @@ export default function Home() {
               </div>
             </div>
           </Modal>
-          <span className="poppins fw-500 px-18">Your Surrogate Media</span>
+          <div className="flex-row align-center justify-between width-100">
+            <span className="poppins fw-500 px-18">Your Surrogate Media</span>
+            <Link to="/dashboard/media">View All</Link>
+          </div>
+          <br />
           <div className="flex-row align-center justify-center width-100">
             {surrogateMedia.length === 0 && (
               <>
@@ -394,73 +340,51 @@ export default function Home() {
               </>
             )}
           </div>
-          <div ref={sliderRef} className="keen-slider">
-            {surrogateMedia.map((media) => {
-              return (
-                <div className="keen-slider__slide surrogate-media-item">
-                  <Card sx={{ maxWidth: 345 }}>
-                    <CardMedia
-                      sx={{ height: 140 }}
-                      image={Logo}
-                      title="Report File"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {media.type}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <b>Date Created: </b>
-                        {getFullDate(media.createdOn)}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        onClick={() => {
-                          const l = document.createElement("a");
-                          l.href = media.file;
-                          l.target = "_BLANK";
-                          l.click();
-                        }}
-                      >
-                        Download
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </div>
-              );
+          <div className="flex-row surrogate-media-row">
+            {surrogateMedia.map((media, index) => {
+              if (index === 0 || index === 1) {
+                return (
+                  <div className="surrogate-media-item">
+                    <Card
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <CardMedia
+                        sx={{ height: 140 }}
+                        image={Logo}
+                        title="Report File"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {media.type}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          <b>Date Created: </b>
+                          {getFullDate(media.createdOn)}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button
+                          size="small"
+                          onClick={() => {
+                            const l = document.createElement("a");
+                            l.href = media.file;
+                            l.target = "_BLANK";
+                            l.click();
+                          }}
+                        >
+                          Download
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </div>
+                );
+              }
             })}
           </div>
           <br />
-          {loaded &&
-            instanceRef.current &&
-            instanceRef.current.track.details &&
-            surrogateMedia.length > 0 && (
-              <center>
-                <span
-                  className="px-30 pointer surrogate-media-arrow"
-                  onClick={(e) =>
-                    e.stopPropagation() || instanceRef.current?.prev()
-                  }
-                  disabled={currentSlide === 0}
-                >
-                  <i className="fas fa-long-arrow-alt-left"></i>
-                </span>
 
-                <span
-                  className="px-30 pointer surrogate-media-arrow"
-                  onClick={(e) =>
-                    e.stopPropagation() || instanceRef.current?.next()
-                  }
-                  disabled={
-                    currentSlide ===
-                    instanceRef.current.track.details.slides.length - 1
-                  }
-                >
-                  <i className="fas fa-long-arrow-alt-right"></i>
-                </span>
-              </center>
-            )}
           <AccountManagement />
         </div>
       </div>

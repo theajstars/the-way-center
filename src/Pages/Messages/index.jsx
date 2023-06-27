@@ -37,7 +37,6 @@ export default function Messages() {
     setMessagesLoading(true);
     const r = await PerformRequest.GetMessageList().catch(() => {
       setMessagesLoading(false);
-      addToast("An error occured", { appearance: "error" });
     });
     if (r.data.status === "success" && r.data.data) {
       const ref = r.data.data[0].reference;
@@ -45,7 +44,6 @@ export default function Messages() {
       setCurrentReference(ref);
       const m = await PerformRequest.GetCurrentMessages(ref).catch(() => {
         setMessagesLoading(false);
-        addToast("An error occured", { appearance: "error" });
       });
       console.log(m);
       setMessagesLoading(false);
@@ -54,12 +52,12 @@ export default function Messages() {
         setCurrentMessages(m.data.data);
       }
     } else {
-      addToast("An error occured", { appearance: "error" });
     }
   };
 
   useEffect(() => {
     getParentMessages();
+    removeAllToasts();
   }, []);
 
   const AddMessageFile = async (file) => {

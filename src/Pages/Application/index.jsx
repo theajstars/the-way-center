@@ -56,6 +56,7 @@ export default function Application() {
   };
   useEffect(() => {
     getAgeRanges();
+    removeAllToasts();
   }, []);
 
   const SubmitApplication = async () => {

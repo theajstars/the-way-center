@@ -24,7 +24,7 @@ import { PerformRequest } from "../../API/PerformRequests";
 import { UploadFile } from "../../API/FetchData";
 
 export default function Reports() {
-  const { addToast } = useToasts();
+  const { addToast, removeAllToasts } = useToasts();
   const ConsumerContext = useContext(DefaultContext);
   const [reports, setReports] = useState([]);
   const [isReportsLoading, setReportsLoading] = useState(false);
@@ -63,6 +63,7 @@ export default function Reports() {
 
   useEffect(() => {
     getReports();
+    removeAllToasts();
   }, [currentPage]);
   const defaultFullInputProps = {
     variant: "standard",
