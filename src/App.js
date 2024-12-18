@@ -73,7 +73,7 @@ function getFullDate(dateString) {
 }
 
 function App() {
-  const token = Cookies.get("token");
+  const token = localStorage.getItem("token");
 
   // useEffect(() => {
   //   if (!token) {

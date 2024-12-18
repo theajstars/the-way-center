@@ -23,7 +23,7 @@ export default function TopNav() {
         <i className={`fal fa-angle-${isTopNavOpen ? "up" : "down"}`}></i>
       </span>
       <div className="top-nav-container flex-row">
-        <span className="top-nav-button flex-row">
+        {/* <span className="top-nav-button flex-row">
           <img
             onClick={() => navigate("/dashboard/messages")}
             src={ChatIcon}
@@ -33,7 +33,7 @@ export default function TopNav() {
           <span className="top-nav-count flex-row">
             {ConsumerContext.Notifications.unread}
           </span>
-        </span>
+        </span> */}
         {/* <span className="top-nav-button flex-row">
           <img src={BellIcon} alt="" className="top-nav-icon" />
           <span className="top-nav-count flex-row">52</span>
@@ -51,12 +51,14 @@ export default function TopNav() {
             className="top-nav-avatar"
           />
           <div className="top-nav-col flex-column">
-            <span className="cinzel top-nav-name">
-              {ConsumerContext.Profile.firstname}&nbsp;
+            <div className="cinzel top-nav-name">
+              {ConsumerContext.Profile.firstname}
+            </div>
+            <div className="cinzel top-nav-name">
               {ConsumerContext.Profile.lastname}
-            </span>
+            </div>
             <div className="flex-row top-nav-links">
-              <span className="top-nav-tag">Parent Account</span>
+              <span className="top-nav-tag">Parent</span>
             </div>
           </div>
         </motion.div>

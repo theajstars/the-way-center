@@ -20,3 +20,8 @@
     margin-right: 0;
   }
 }
+@media screen and (max-width: 450px) {
+  .footer-row {
+    justify-content: space-between;
+  }
+}

@@ -55,7 +55,7 @@ export default function Media() {
   const fetchSurrogateReports = async () => {
     // const surrogateID = getSurrogateDetails()
     const r = await PerformRequest.GetReports({});
-    console.log(r);
+
     setSurrogateReports(
       r.data.status === "success" && r.data.data ? r.data.data : []
     );
@@ -65,7 +65,7 @@ export default function Media() {
         const getMedia = await PerformRequest.GetReportFile({
           reportID: report.id,
         });
-        console.log(getMedia);
+
         getMedia.data.data && getMedia.data.data.length !== 0
           ? // ? setSurrogateMedia([...surrogateMedia, getMedia.data.data[0]])
             setSurrogateMedia((surrogateMedia) => [

@@ -32,12 +32,12 @@ export default function Login() {
           setFormSubmitting(false);
         });
         setFormSubmitting(false);
-        console.log(r);
+
         if (r.data.status === "failed") {
           addToast(r.data.message, { appearance: "error" });
         } else {
           navigate("/dashboard");
-          Cookies.set("token", r.data.data.token);
+          localStorage.setItem("token", r.data.data.token);
         }
       }
     }
@@ -54,7 +54,7 @@ export default function Login() {
         setOTPRequesting(false);
       });
       setOTPRequesting(false);
-      console.log(r);
+
       if (r.data.status === "failed") {
         addToast(r.data.message, { appearance: "error" });
       } else {

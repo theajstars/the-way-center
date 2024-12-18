@@ -76,6 +76,9 @@
 .home-container-right {
   width: 65%;
 }
+.view-more-row {
+  margin-bottom: 30px;
+}
 .view-more-reports {
   border: 1px solid var(--purple-default);
   padding: 5px 9px;

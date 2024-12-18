@@ -5,8 +5,8 @@ import Cookies from "js-cookie";
 
 const baseURL = "https://api.thewaycenter.net";
 const FetchData = async ({ method, route, data }) => {
-  const token = Cookies.get("token");
-  console.log(token);
+  const token = localStorage.getItem("token");
+
   return axios.request({
     method,
     url: `${baseURL}${route}`,
@@ -19,7 +19,7 @@ const FetchData = async ({ method, route, data }) => {
   });
 };
 const UploadFile = async ({ formData }) => {
-  const token = Cookies.get("token");
+  const token = localStorage.getItem("token");
 
   return axios.request({
     method: "POST",

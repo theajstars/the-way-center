@@ -40,12 +40,12 @@ export default function Messages() {
     });
     if (r.data.status === "success" && r.data.data) {
       const ref = r.data.data[0].reference;
-      console.log(ref);
+
       setCurrentReference(ref);
       const m = await PerformRequest.GetCurrentMessages(ref).catch(() => {
         setMessagesLoading(false);
       });
-      console.log(m);
+
       setMessagesLoading(false);
 
       if (m.data.status === "success" && m.data.data) {
@@ -74,7 +74,7 @@ export default function Messages() {
       setMessageSending(false);
       addToast("An error occured!", { appearance: "error" });
     });
-    console.log(uploadMessageFile);
+
     if (uploadMessageFile.data.status === "success") {
       const { fileUrl } = uploadMessageFile.data;
       const r = await PerformRequest.SendMessageFile({
@@ -85,7 +85,7 @@ export default function Messages() {
         addToast("An error occured!", { appearance: "error" });
       });
       setMessageSending(false);
-      console.log(r);
+
       const m = await PerformRequest.GetCurrentMessages(currentReference).catch(
         () => {
           removeAllToasts();
@@ -98,7 +98,6 @@ export default function Messages() {
       setMessageSending(false);
       addToast("An error occured!", { appearance: "error" });
     }
-    console.log(uploadMessageFile);
   };
   const SendMessage = async () => {
     if (messageText.length === 0) {
@@ -124,7 +123,6 @@ export default function Messages() {
 
         setCurrentMessages(m.data.data ?? []);
       }
-      console.log(r);
     }
   };
 
@@ -136,7 +134,6 @@ export default function Messages() {
         ref={fileUploadRef}
         className="modal-image-hide"
         onChange={(e) => {
-          console.log(e.target.files);
           const file = e.target.files[0];
           if (file.size > 1547220) {
             fileIsLarge();

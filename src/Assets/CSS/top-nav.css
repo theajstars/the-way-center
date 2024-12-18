@@ -36,16 +36,18 @@
   align-items: center;
 }
 .top-nav-avatar {
-  height: 70px;
-  width: 70px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
   margin-right: 10px;
 }
 .top-nav-col {
+  font-size: 12px;
 }
 .top-nav-name {
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
+  text-transform: capitalize;
 }
 .top-nav-links {
   align-items: flex-end;

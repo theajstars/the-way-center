@@ -147,9 +147,9 @@ export default function Home() {
                 : "not-allowed",
             }}
             onClick={() => {
-              getSurrogateDetails().firstname
-                ? setShowSurrogateProfile(true)
-                : console.log("Balls");
+              if (getSurrogateDetails().firstname) {
+                setShowSurrogateProfile(true);
+              }
             }}
           />
           <span className="home-username fw-500 cinzel px-23">
@@ -165,7 +165,7 @@ export default function Home() {
         </div>
 
         <div className="home-container-right flex-column">
-          <div className="flex-row space-between align-center">
+          <div className="flex-row space-between align-center view-more-row">
             <span className="poppins fw-500 px-18 surrogate-reports-head">
               Your Surrogate Reports
             </span>
@@ -385,7 +385,7 @@ export default function Home() {
           </div>
           <br />
 
-          <AccountManagement />
+          {/* <AccountManagement /> */}
         </div>
       </div>
     </div>

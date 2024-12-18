@@ -41,7 +41,7 @@ export default function Reports() {
       setReportsLoading(false);
     });
     setReportsLoading(false);
-    console.log("Reports", r);
+
     if (r.data.status === "success") {
       setReports(r.data.data ?? []);
       setTotalPages(r.data.totalPages);

@@ -8,14 +8,13 @@
     z-index: 99999;
   }
   div.top-nav-container {
-    right: 0px;
+    right: 20px;
     padding: 30px 40px;
     background-color: white;
   }
   div.top-nav-right {
     background-color: white;
     position: absolute;
-    width: 320px;
     right: 0px;
     top: 80px;
     padding: 0px 10px;
@@ -24,5 +23,11 @@
     overflow: clip;
     height: 100px;
     align-items: center;
+    .top-nav-col {
+      width: 180px;
+      .top-nav-name {
+        width: fit-content;
+      }
+    }
   }
 }

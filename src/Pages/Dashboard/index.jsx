@@ -114,20 +114,19 @@ export default function Dashboard() {
     }
   };
   const getProfile = async () => {
-    const token = Cookies.get("token");
+    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
     }
     const r = await PerformRequest.GetProfile();
-    console.log(r);
-    console.log(token);
+
     setProfile(r.data.data ?? initialContext.Profile);
     if (r.data.status === "failed") {
-      Cookies.remove("token");
+      localStorage.removeItem("token");
       navigate("/login");
     } else {
       if (r.data.data.accountConnected === "Console") {
-        Cookies.remove("token");
+        localStorage.removeItem("token");
         navigate("/login");
       }
     }

@@ -77,7 +77,7 @@ export default function Application() {
           setFormSubmitting(false)
         );
         setFormSubmitting(false);
-        console.log(r);
+
         const { message: responseMessage } = r.data;
         if (r.data.status === "failed") {
           addToast(responseMessage, { appearance: "error" });
@@ -290,7 +290,7 @@ export default function Application() {
           {isFormSubmitting && <i className="far fa-spinner-third fa-spin" />}
         </Button>
       </div>
-      <AccountManagement />
+      {/* <AccountManagement /> */}
     </div>
   );
 }
