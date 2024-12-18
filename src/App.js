@@ -20,6 +20,7 @@ import Reports from "./Pages/Reports";
 import Profile from "./Pages/Profile";
 import Messages from "./Pages/Messages";
 import Media from "./Pages/Media";
+import ParentUpdate from "./Pages/ParentUpdate";
 function validateEmail(email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,6 +94,7 @@ function App() {
           <Route path="/dashboard/application" element={<Application />} />
           <Route path="/dashboard/reports" element={<Reports />} />
           <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/edit-profile" element={<ParentUpdate />} />
           <Route path="/dashboard/media" element={<Media />} />
           <Route path="/dashboard/messages" element={<Messages />} />
         </Route>

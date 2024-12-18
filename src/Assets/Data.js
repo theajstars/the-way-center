@@ -7,7 +7,31 @@ const ReportCategories = [
   { name: "Medical", value: "medical" },
   { name: "Other", value: "other" },
 ];
-
+export const initialParent = {
+  id: "4",
+  primary: {
+    lastname: "",
+    firstname: "",
+    email: "",
+    phone: "",
+    image: "",
+  },
+  spouse: {
+    lastname: "",
+    firstname: "",
+    email: "",
+    phone: "",
+    image: "",
+  },
+  address: "",
+  city: "",
+  state: "",
+  country: "",
+  area: "",
+  status: "",
+  pair: "",
+  createdOn: "",
+};
 const SurrogateRecords = [
   {
     title: "Your Surrogates next Doctors Appointment on",

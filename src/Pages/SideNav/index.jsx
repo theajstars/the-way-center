@@ -102,7 +102,7 @@ export default function SideNav() {
               >
                 Reports
               </span>
-              <span
+              {/* <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Messages"
                     ? "side-nav-link-active"
@@ -114,7 +114,7 @@ export default function SideNav() {
                 }}
               >
                 Messages
-              </span>
+              </span> */}
               <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Profile"

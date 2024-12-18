@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { Typography, TextField } from "@mui/material";
 import { DefaultContext } from "../Dashboard";
@@ -17,9 +18,13 @@ export default function Profile() {
   console.log(profile);
   return (
     <div className="home-page">
-      <Typography className="poppins fw-500" variant="h5">
-        My Profile
-      </Typography>
+      <div className="flex-row align-center">
+        <Typography className="poppins fw-500" variant="h5">
+          My Profile
+        </Typography>
+        &nbsp; &nbsp;
+        <Link to="/dashboard/edit-profile">Edit</Link>
+      </div>
       <div className="width-100 flex-column">
         <div className="modal-input-row space-between flex-row">
           <TextField

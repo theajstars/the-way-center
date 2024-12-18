@@ -15,6 +15,7 @@ import Reports from "../Reports";
 import Profile from "../Profile";
 import Messages from "../Messages";
 import Media from "../Media";
+import ParentUpdate from "../ParentUpdate";
 
 const initialContext = {
   CountriesList: [],
@@ -177,6 +178,7 @@ export default function Dashboard() {
                 <Route path="/application" index element={<Application />} />
                 <Route path="/reports" index element={<Reports />} />
                 <Route path="/profile" index element={<Profile />} />
+                <Route path="/edit-profile" index element={<ParentUpdate />} />
                 <Route path="/messages" index element={<Messages />} />
                 <Route path="/media" index element={<Media />} />
               </Routes>
