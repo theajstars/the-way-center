@@ -10,7 +10,8 @@
 
 # production
 /build
-
+/parent.rar
+/parent.zip
 # misc
 .DS_Store
 .env.local
