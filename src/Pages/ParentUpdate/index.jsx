@@ -304,12 +304,13 @@ export default function ParentUpdate({
         className="default-modal-container flex-row"
       > */}
       <div className="surrogate-content flex-column">
-        <span className="cinzel px-30 uppercase">update parent profile</span>
         <br />
-
+        <br />
+        <br />
         <div className="modal-form-container flex-column align-center">
           {currentContact === "Primary" ? (
             <>
+              <br />
               <div className="modal-form flex-column">
                 <br />
                 <span className="fw-600 poppins px-21">Parent Bio-Data</span>

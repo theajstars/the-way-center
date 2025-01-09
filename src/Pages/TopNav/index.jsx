@@ -14,14 +14,14 @@ export default function TopNav() {
   const [isTopNavOpen, setTopNavOpen] = useState(true);
   return (
     <>
-      <span
+      {/* <span
         className="toggle-topnav px-35"
         onClick={() => {
           setTopNavOpen(!isTopNavOpen);
         }}
       >
         <i className={`fal fa-angle-${isTopNavOpen ? "up" : "down"}`}></i>
-      </span>
+      </span> */}
       <div className="top-nav-container flex-row">
         {/* <span className="top-nav-button flex-row">
           <img
@@ -54,9 +54,9 @@ export default function TopNav() {
             <div className="cinzel top-nav-name">
               {ConsumerContext.Profile.firstname}
             </div>
-            <div className="cinzel top-nav-name">
+            {/* <div className="cinzel top-nav-name">
               {ConsumerContext.Profile.lastname}
-            </div>
+            </div> */}
             <div className="flex-row top-nav-links">
               <span className="top-nav-tag">Parent</span>
             </div>

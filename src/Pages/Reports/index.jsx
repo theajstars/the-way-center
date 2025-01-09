@@ -188,6 +188,7 @@ export default function Reports() {
           </Button>
         </div>
       </div>
+      <br />
       <div className="flex-row align-center space-between filter-container"></div>
       <div className="flex-row align-center justify-center width-100">
         {reports.length === 0 && (
