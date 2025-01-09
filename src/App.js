@@ -91,7 +91,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<Home />} />
-          <Route path="/dashboard/application" element={<Application />} />
+          {/* <Route path="/dashboard/application" element={<Application />} /> */}
           <Route path="/dashboard/reports" element={<Reports />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/edit-profile" element={<ParentUpdate />} />

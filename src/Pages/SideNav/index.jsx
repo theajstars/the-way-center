@@ -62,7 +62,7 @@ export default function SideNav() {
               >
                 My Surrogate
               </span> */}
-              <span
+              {/* <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Application"
                     ? "side-nav-link-active"
@@ -74,7 +74,7 @@ export default function SideNav() {
                 }}
               >
                 Application
-              </span>
+              </span> */}
               <span
                 className={`side-nav-link cinzel ${
                   currentActiveLink === "Media"
